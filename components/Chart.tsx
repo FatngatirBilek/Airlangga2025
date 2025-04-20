@@ -40,15 +40,14 @@ interface SuaraData {
 // --- Helper function to generate distinct colors ---
 function generateColor(index: number, total: number): string {
   const hue = Math.round((index * (360 / total)) % 360);
-  const saturation = 70;
-  const lightness = 60;
+  const saturation = 90;
+  const lightness = 50;
   return `hsla(${hue}, ${saturation}%, ${lightness}%, 0.6)`;
 }
 
 function generateBorderColor(color: string): string {
-  return color.replace("0.6", "1").replace("60%", "50%");
+  return color.replace("5", "1").replace("60%", "50%");
 }
-// --- End Helper Function ---
 
 // Chart options - Using generateLabels for the legend
 const options: ChartOptions<"bar"> = {
