@@ -5,7 +5,6 @@ interface ISuara extends Document {
   nomor: string;
   suara: string;
 }
-
 const suaraSchema: Schema = new Schema(
   {
     nama: { type: String, required: true },
