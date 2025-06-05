@@ -3,9 +3,9 @@ import Suara from "@/models/suara";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { nama, nomor, suara } = await request.json();
+  const { nama, nomor, count } = await request.json();
   await connect();
-  await Suara.create({ nama, nomor, suara });
+  await Suara.create({ nama, nomor, count });
   try {
     return NextResponse.json({ message: "berhasil dibuat" }, { status: 201 });
   } catch (error) {

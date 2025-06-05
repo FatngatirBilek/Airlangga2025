@@ -3,13 +3,13 @@ import mongoose, { Schema, Document } from "mongoose";
 interface ISuara extends Document {
   nama: string;
   nomor: string;
-  suara: string;
+  count: string;
 }
 const suaraSchema: Schema = new Schema(
   {
     nama: { type: String, required: true },
     nomor: { type: String, required: true },
-    suara: { type: String, required: true },
+    count: { type: String, required: true },
   },
   {
     timestamps: true,

@@ -34,7 +34,7 @@ interface SuaraData {
   _id: string;
   nama: string;
   nomor: number;
-  suara: number;
+  count: number;
 }
 
 // --- Helper function to generate distinct colors ---
@@ -153,7 +153,7 @@ export default function ChartView() {
         const apiData: SuaraData[] = await response.json();
 
         const labels = apiData.map((item) => item.nama);
-        const dataPoints = apiData.map((item) => item.suara);
+        const dataPoints = apiData.map((item) => item.count);
 
         const backgroundColors = apiData.map((_, index) =>
           generateColor(index, apiData.length),

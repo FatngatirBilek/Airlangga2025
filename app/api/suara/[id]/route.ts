@@ -14,10 +14,10 @@ export async function PUT(
   const {
     newNama: nama,
     newNomor: nomor,
-    newSuara: suara,
+    newCount: count,
   } = await request.json();
   await connect();
-  await Suara.findByIdAndUpdate(id, { nama, nomor, suara });
+  await Suara.findByIdAndUpdate(id, { nama, nomor, count });
   return NextResponse.json(
     { message: "Suara updated successfully" },
     { status: 200 },
