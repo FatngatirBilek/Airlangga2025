@@ -6,7 +6,7 @@ pkgs.mkShell {
   ];
   shellHook = ''
     echo "=================================================="
-    echo "To start MongoDB:   docker compose up"
+    echo "To start MongoDB:   docker compose up -d"
     echo "To stop MongoDB:    docker compose down"
     echo ""
     echo "To install deps:    bun install"
