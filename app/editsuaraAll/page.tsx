@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import EditAllSuara from "@/components/EditAllSuara"; // adjust path if needed
+import EditAllSuara from "@/components/EditAllSuara";
 
 export default async function Page() {
   const { userId } = await auth();
