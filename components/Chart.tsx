@@ -132,7 +132,8 @@ export default function ChartView() {
     error,
     isLoading,
   } = useSWR<SuaraData[]>("/api/suara", fetcher, {
-    revalidateOnFocus: true, // refetch on window/tab focus
+    revalidateOnFocus: true,
+    refreshInterval: 5000, // Auto-refresh every 5 seconds
   });
 
   // Build chartData from apiData
@@ -175,7 +176,6 @@ export default function ChartView() {
         chartInstanceRef.current = null;
       }
     };
-    // Only rerun when data changes
     // eslint-disable-next-line
   }, [JSON.stringify(chartData), isLoading, error]);
 

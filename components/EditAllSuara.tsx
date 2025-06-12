@@ -22,7 +22,9 @@ export default function EditAllSuara() {
     data: suaraList,
     isLoading,
     mutate,
-  } = useSWR<Suara[]>("/api/suara", fetcher);
+  } = useSWR<Suara[]>("/api/suara", fetcher, {
+    refreshInterval: 5000, // Auto-refresh every 5 seconds
+  });
 
   const [editList, setEditList] = useState<Suara[]>([]);
   const [notif, setNotif] = useState<{ message: string; type: NotifType }>({
@@ -61,7 +63,7 @@ export default function EditAllSuara() {
     setSaving(false);
     if (success) {
       setNotif({ message: "All suara updated!", type: "success" });
-      mutate(); // refresh the list
+      mutate(); // manual refresh after save
     } else {
       setNotif({ message: "Some suara failed to update!", type: "error" });
     }
