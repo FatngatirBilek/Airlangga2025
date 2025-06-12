@@ -73,7 +73,7 @@ export default function EditAllSuara() {
   if (isLoading || !editList) return <div>Loading...</div>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-2 mt-8">
+    <div className="min-h-screen flex items-center justify-center py-2">
       <div className="w-full max-w-4xl bg-[#10141f] rounded-xl p-5 shadow-lg mx-2">
         <h2 className="text-3xl font-bold mb-8 text-gray-100">
           Edit Semua Suara
@@ -89,7 +89,7 @@ export default function EditAllSuara() {
                   Nomor
                 </th>
                 <th className="px-4 py-3 text-left font-semibold text-gray-200 bg-[#141a28]">
-                  Count
+                  Jumlah Suara
                 </th>
               </tr>
             </thead>
