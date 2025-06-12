@@ -23,7 +23,7 @@ export default function EditAllSuara() {
     isLoading,
     mutate,
   } = useSWR<Suara[]>("/api/suara", fetcher, {
-    refreshInterval: 5000, // Auto-refresh every 5 seconds
+    refreshInterval: 5000,
   });
 
   const [editList, setEditList] = useState<Suara[]>([]);
@@ -44,7 +44,6 @@ export default function EditAllSuara() {
     );
   };
 
-  // Save all edited suara
   const handleSaveAll = async () => {
     setSaving(true);
     let success = true;
@@ -63,7 +62,7 @@ export default function EditAllSuara() {
     setSaving(false);
     if (success) {
       setNotif({ message: "All suara updated!", type: "success" });
-      mutate(); // manual refresh after save
+      mutate();
     } else {
       setNotif({ message: "Some suara failed to update!", type: "error" });
     }
@@ -74,72 +73,88 @@ export default function EditAllSuara() {
   if (isLoading || !editList) return <div>Loading...</div>;
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">Edit Semua Suara</h2>
-      <table className="min-w-full table-auto mb-8">
-        <thead>
-          <tr>
-            <th className="border px-2 py-1">Nama</th>
-            <th className="border px-2 py-1">Nomor</th>
-            <th className="border px-2 py-1">Count</th>
-          </tr>
-        </thead>
-        <tbody>
-          {editList.map((suara, idx) => (
-            <tr key={suara._id}>
-              <td className="border px-2 py-1">
-                <input
-                  type="text"
-                  value={suara.nama}
-                  onChange={(e) => handleChange(idx, "nama", e.target.value)}
-                  className="border px-2 py-1 rounded"
-                />
-              </td>
-              <td className="border px-2 py-1">
-                <input
-                  type="text"
-                  value={suara.nomor}
-                  onChange={(e) => handleChange(idx, "nomor", e.target.value)}
-                  className="border px-2 py-1 rounded"
-                />
-              </td>
-              <td className="border px-2 py-1">
-                <input
-                  type="text"
-                  value={suara.count}
-                  onChange={(e) => handleChange(idx, "count", e.target.value)}
-                  className="border px-2 py-1 rounded"
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Global Save Button at the bottom right */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          mt: 2,
-        }}
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSaveAll}
-          disabled={saving}
-        >
-          {saving ? "Saving..." : "Save All"}
-        </Button>
-      </Box>
-
-      {/* Material UI Alert notification at the bottom right */}
+    <div className="min-h-screen flex items-center justify-center py-2 mt-8">
+      <div className="w-full max-w-4xl bg-[#10141f] rounded-xl p-5 shadow-lg mx-2">
+        <h2 className="text-3xl font-bold mb-8 text-gray-100">
+          Edit Semua Suara
+        </h2>
+        <div className="overflow-x-auto">
+          <table className="w-full rounded-lg">
+            <thead>
+              <tr>
+                <th className="px-4 py-3 text-left font-semibold text-gray-200 bg-[#141a28]">
+                  Nama
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-200 bg-[#141a28]">
+                  Nomor
+                </th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-200 bg-[#141a28]">
+                  Count
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {editList.map((suara, idx) => (
+                <tr key={suara._id}>
+                  <td className="px-4 py-2 bg-[#171c29]">
+                    <input
+                      type="text"
+                      value={suara.nama}
+                      onChange={(e) =>
+                        handleChange(idx, "nama", e.target.value)
+                      }
+                      className="w-full px-3 py-2 rounded bg-[#232b3d] text-gray-100 border border-gray-700 focus:border-blue-600 outline-none transition"
+                    />
+                  </td>
+                  <td className="px-4 py-2 bg-[#171c29]">
+                    <input
+                      type="text"
+                      value={suara.nomor}
+                      onChange={(e) =>
+                        handleChange(idx, "nomor", e.target.value)
+                      }
+                      className="w-full px-3 py-2 rounded bg-[#232b3d] text-gray-100 border border-gray-700 focus:border-blue-600 outline-none transition"
+                    />
+                  </td>
+                  <td className="px-4 py-2 bg-[#171c29]">
+                    <input
+                      type="text"
+                      value={suara.count}
+                      onChange={(e) =>
+                        handleChange(idx, "count", e.target.value)
+                      }
+                      className="w-full px-3 py-2 rounded bg-[#232b3d] text-gray-100 border border-gray-700 focus:border-blue-600 outline-none transition"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex justify-end mt-8">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSaveAll}
+            disabled={saving}
+            style={{
+              background: "#1976d2",
+              color: "#fff",
+              fontWeight: 600,
+              letterSpacing: "1px",
+              borderRadius: "0.5rem",
+            }}
+          >
+            {saving ? "Saving..." : "SAVE ALL"}
+          </Button>
+        </div>
+      </div>
+      {/* Notification */}
       <Box
         sx={{
           position: "fixed",
-          right: 24,
-          bottom: 24,
+          right: 16,
+          bottom: 16,
           display: "flex",
           alignItems: "flex-end",
           zIndex: 1400,
@@ -149,7 +164,7 @@ export default function EditAllSuara() {
         <Slide direction="up" in={notifOpen} mountOnEnter unmountOnExit>
           <Alert
             severity={notif.type === "success" ? "success" : "error"}
-            sx={{ minWidth: 280, pointerEvents: "auto" }}
+            sx={{ minWidth: 220, pointerEvents: "auto" }}
             variant="filled"
           >
             {notif.message}
