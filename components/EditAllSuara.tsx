@@ -1,7 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
+import Alert from "@mui/material/Alert";
+import Slide from "@mui/material/Slide";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
-// Define the Suara type
 interface Suara {
   _id: string;
   nama: string;
@@ -9,53 +13,63 @@ interface Suara {
   count: string;
 }
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+type NotifType = "success" | "error" | "";
+
 export default function EditAllSuara() {
-  const [suaraList, setSuaraList] = useState<Suara[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: suaraList,
+    isLoading,
+    mutate,
+  } = useSWR<Suara[]>("/api/suara", fetcher);
 
-  // Fetch all suara on mount
+  const [editList, setEditList] = useState<Suara[]>([]);
+  const [notif, setNotif] = useState<{ message: string; type: NotifType }>({
+    message: "",
+    type: "",
+  });
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [saving, setSaving] = useState(false);
+
   useEffect(() => {
-    fetch("/api/suara")
-      .then((res) => res.json())
-      .then((data: Suara[]) => {
-        setSuaraList(data);
-        setLoading(false);
-      });
-  }, []);
+    if (suaraList) setEditList(suaraList);
+  }, [suaraList]);
 
-  // Handle edit for a single Suara
-  const handleEdit = async (index: number) => {
-    const suara = suaraList[index];
-    const res = await fetch(`/api/suara/${suara._id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        newNama: suara.nama,
-        newNomor: suara.nomor,
-        newCount: suara.count,
-      }),
-    });
-
-    if (res.ok) {
-      alert("Suara updated!");
-      // Optional: Refetch data to get the latest (uncomment if you want it to refresh)
-      // fetch("/api/suara")
-      //   .then((res) => res.json())
-      //   .then((data: Suara[]) => setSuaraList(data));
-      // window.dispatchEvent(new Event("suaraUpdated")); // For chart update, if needed
-    } else {
-      alert("Failed to update suara!");
-    }
-  };
-
-  // Handle input change
   const handleChange = (index: number, field: keyof Suara, value: string) => {
-    setSuaraList((prev) =>
+    setEditList((prev) =>
       prev.map((s, i) => (i === index ? { ...s, [field]: value } : s)),
     );
   };
 
-  if (loading) return <div>Loading...</div>;
+  // Save all edited suara
+  const handleSaveAll = async () => {
+    setSaving(true);
+    let success = true;
+    for (const suara of editList) {
+      const res = await fetch(`/api/suara/${suara._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          newNama: suara.nama,
+          newNomor: suara.nomor,
+          newCount: suara.count,
+        }),
+      });
+      if (!res.ok) success = false;
+    }
+    setSaving(false);
+    if (success) {
+      setNotif({ message: "All suara updated!", type: "success" });
+      mutate(); // refresh the list
+    } else {
+      setNotif({ message: "Some suara failed to update!", type: "error" });
+    }
+    setNotifOpen(true);
+    setTimeout(() => setNotifOpen(false), 2500);
+  };
+
+  if (isLoading || !editList) return <div>Loading...</div>;
 
   return (
     <div className="p-6">
@@ -66,11 +80,10 @@ export default function EditAllSuara() {
             <th className="border px-2 py-1">Nama</th>
             <th className="border px-2 py-1">Nomor</th>
             <th className="border px-2 py-1">Count</th>
-            <th className="border px-2 py-1">Action</th>
           </tr>
         </thead>
         <tbody>
-          {suaraList.map((suara, idx) => (
+          {editList.map((suara, idx) => (
             <tr key={suara._id}>
               <td className="border px-2 py-1">
                 <input
@@ -96,18 +109,51 @@ export default function EditAllSuara() {
                   className="border px-2 py-1 rounded"
                 />
               </td>
-              <td className="border px-2 py-1">
-                <button
-                  className="bg-blue-500 text-white px-3 py-1 rounded"
-                  onClick={() => handleEdit(idx)}
-                >
-                  Save
-                </button>
-              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Global Save Button at the bottom right */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          mt: 2,
+        }}
+      >
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSaveAll}
+          disabled={saving}
+        >
+          {saving ? "Saving..." : "Save All"}
+        </Button>
+      </Box>
+
+      {/* Material UI Alert notification at the bottom right */}
+      <Box
+        sx={{
+          position: "fixed",
+          right: 24,
+          bottom: 24,
+          display: "flex",
+          alignItems: "flex-end",
+          zIndex: 1400,
+          pointerEvents: "none",
+        }}
+      >
+        <Slide direction="up" in={notifOpen} mountOnEnter unmountOnExit>
+          <Alert
+            severity={notif.type === "success" ? "success" : "error"}
+            sx={{ minWidth: 280, pointerEvents: "auto" }}
+            variant="filled"
+          >
+            {notif.message}
+          </Alert>
+        </Slide>
+      </Box>
     </div>
   );
 }

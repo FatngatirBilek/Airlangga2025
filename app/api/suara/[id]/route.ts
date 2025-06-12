@@ -6,11 +6,8 @@ interface Params {
   id: string;
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Params },
-) {
-  const { id } = params;
+export async function PUT(request: NextRequest, context: { params: Params }) {
+  const { id } = context.params;
   const {
     newNama: nama,
     newNomor: nomor,
@@ -24,11 +21,8 @@ export async function PUT(
   );
 }
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Params },
-) {
-  const { id } = params;
+export async function GET(_: NextRequest, context: { params: Params }) {
+  const { id } = context.params;
   await connect();
   const suara = await Suara.findOne({ _id: id });
   if (!suara) {

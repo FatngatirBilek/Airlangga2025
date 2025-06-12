@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import useSWR from "swr";
+import { useEffect, useRef } from "react";
 import {
-  Chart, // Import Chart class
+  Chart,
   ArcElement,
   BarController,
   BarElement,
@@ -37,7 +38,6 @@ interface SuaraData {
   count: number;
 }
 
-// --- Helper function to generate distinct colors ---
 function generateColor(index: number, total: number): string {
   const hue = Math.round((index * (360 / total)) % 360);
   const saturation = 90;
@@ -49,7 +49,6 @@ function generateBorderColor(color: string): string {
   return color.replace("5", "1").replace("60%", "50%");
 }
 
-// Chart options - Using generateLabels for the legend
 const options: ChartOptions<"bar"> = {
   responsive: true,
   maintainAspectRatio: false,
@@ -122,71 +121,42 @@ const options: ChartOptions<"bar"> = {
   },
 };
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 export default function ChartView() {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartInstanceRef = useRef<Chart | null>(null);
 
-  const [chartData, setChartData] = useState<ChartData<"bar">>({
-    labels: [], // Initialize as an empty array
+  const {
+    data: apiData,
+    error,
+    isLoading,
+  } = useSWR<SuaraData[]>("/api/suara", fetcher, {
+    revalidateOnFocus: true, // refetch on window/tab focus
+  });
+
+  // Build chartData from apiData
+  const chartData: ChartData<"bar"> = {
+    labels: apiData ? apiData.map((item) => item.nama) : [],
     datasets: [
       {
         label: "Jumlah Suara",
-        data: [],
-        backgroundColor: [],
-        borderColor: [],
+        data: apiData ? apiData.map((item) => item.count) : [],
+        backgroundColor: apiData
+          ? apiData.map((_, index) => generateColor(index, apiData.length))
+          : [],
+        borderColor: apiData
+          ? apiData.map((_, index) =>
+              generateBorderColor(generateColor(index, apiData.length)),
+            )
+          : [],
         borderWidth: 1,
       },
     ],
-  });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const response = await fetch("/api/suara");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const apiData: SuaraData[] = await response.json();
-
-        const labels = apiData.map((item) => item.nama);
-        const dataPoints = apiData.map((item) => item.count);
-
-        const backgroundColors = apiData.map((_, index) =>
-          generateColor(index, apiData.length),
-        );
-        const borderColors = backgroundColors.map(generateBorderColor);
-
-        setChartData({
-          labels: labels, // Set labels
-          datasets: [
-            {
-              label: "Jumlah Suara",
-              data: dataPoints,
-              backgroundColor: backgroundColors,
-              borderColor: borderColors,
-              borderWidth: 1,
-            },
-          ],
-        });
-      } catch (err) {
-        console.error("Failed to fetch suara data:", err);
-        setError(
-          err instanceof Error ? err.message : "An unknown error occurred",
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (chartRef.current && !isLoading && !error) {
+    if (chartRef.current && apiData && !isLoading && !error) {
       const ctx = chartRef.current.getContext("2d");
       if (ctx) {
         if (chartInstanceRef.current) {
@@ -205,14 +175,16 @@ export default function ChartView() {
         chartInstanceRef.current = null;
       }
     };
-  }, [chartData, isLoading, error]);
+    // Only rerun when data changes
+    // eslint-disable-next-line
+  }, [JSON.stringify(chartData), isLoading, error]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1 className="text-3xl font-bold mb-6">Dashboard Perhitungan Suara</h1>
       <div className="w-full max-w-3xl bg-white shadow-xl rounded-lg p-6">
         {isLoading && <div>Loading Chart Data...</div>}
-        {error && <div>Error loading data: {error}</div>}
+        {error && <div>Error loading data: {String(error)}</div>}
         {!isLoading && !error && (
           <div style={{ position: "relative", height: "450px", width: "100%" }}>
             <canvas ref={chartRef} id="mySuaraChart"></canvas>
