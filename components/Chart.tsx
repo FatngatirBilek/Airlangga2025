@@ -16,7 +16,6 @@ import {
   Tooltip,
   ChartData,
   ChartOptions,
-  LegendItem,
 } from "chart.js";
 
 Chart.register(
@@ -40,14 +39,15 @@ interface SuaraData {
 }
 
 const pastelColors = [
-  "rgba(255, 233, 122, 1)", // yellow
-  "rgba(255, 176, 163, 1)", // pink
-  "rgba(127, 255, 236, 1)", // cyan
+  "rgba(255, 233, 122, 1)",
+  "rgba(107, 176, 74, 1)",
+  "rgba(135, 90, 71,1)",
 ];
+
 const pastelBorders = [
   "rgba(255, 233, 122, 1)",
-  "rgba(255, 176, 163, 1)",
-  "rgba(127, 255, 236, 1)",
+  "rgba(107, 176, 74, 1)",
+  "rgba(135, 90, 80,1)",
 ];
 
 const paslonImages = [
@@ -79,7 +79,7 @@ const options: ChartOptions<"bar"> = {
         display: true,
         text: "Jumlah Suara",
         color: "#fff",
-        font: { weight: "bold" },
+        font: { weight: "bold", size: 20 },
       },
       ticks: {
         color: "#fff",
@@ -95,7 +95,7 @@ const options: ChartOptions<"bar"> = {
         display: true,
         text: "Kandidat",
         color: "#fff",
-        font: { weight: "bold" },
+        font: { weight: "bold", size: 20 },
       },
       ticks: {
         color: "#fff",
@@ -124,7 +124,6 @@ export default function ChartView() {
     refreshInterval: 5000,
   });
 
-  // Chart.js data
   const chartData: ChartData<"bar"> = {
     labels: apiData ? apiData.map((item) => item.nama) : [],
     datasets: [
@@ -187,31 +186,35 @@ export default function ChartView() {
         priority
       />
 
-      <div className="flex flex-row w-[1030px] h-[600px] bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 z-10">
+      <div className="flex flex-row w-[1100px] h-[700px] bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 z-10">
         {/* Candidate List */}
-        <div className="flex flex-col justify-center gap-6 w-56 pr-6">
+        <div className="flex flex-col justify-center gap-5 w-48 pr-10">
           {apiData &&
             apiData.map((c, idx) => (
-              <div
-                key={c._id}
-                className="bg-[#7fbc8b] rounded-xl shadow p-3 flex flex-col items-center"
-              >
-                <div className="w-16 h-16 mb-2 relative">
+              <div key={c._id} className="flex flex-col items-stretch">
+                {/* Stretched horizontally, always showing the top (object-top) */}
+                <div
+                  className="w-full aspect-[4/3] relative rounded-t-xl overflow-hidden"
+                  style={{ minHeight: 0, height: 92 }}
+                >
                   <Image
                     src={paslonImages[idx] || "/images/paslon1.png"}
                     alt={`Paslon ${c.nomor}`}
                     fill
-                    className="object-cover rounded-lg"
-                    sizes="64px"
+                    className="object-cover object-top"
+                    sizes="192px"
                     priority
                   />
                 </div>
-                <span className="font-bold text-md uppercase tracking-wider mb-1">
-                  PASLON {c.nomor}
-                </span>
-                <span className="text-xs font-semibold text-gray-700 text-center">
-                  {c.nama}
-                </span>
+                {/* Info Box */}
+                <div className="bg-[#7fbc8b] px-2 py-3 rounded-b-xl shadow -mt-2 flex flex-col items-center">
+                  <span className="font-bold text-[15px] uppercase tracking-wider mb-1">
+                    PASLON {c.nomor}
+                  </span>
+                  <span className="text-xs font-semibold text-gray-700 text-center">
+                    {c.nama}
+                  </span>
+                </div>
               </div>
             ))}
         </div>
@@ -221,7 +224,7 @@ export default function ChartView() {
           <h1 className="text-3xl font-extrabold uppercase tracking-[0.18em] text-white drop-shadow mb-2 text-center">
             Dashboard Perhitungan Suara Airlangga 2025
           </h1>
-          <div style={{ position: "relative", height: "420px", width: "100%" }}>
+          <div style={{ position: "relative", height: "540px", width: "100%" }}>
             {isLoading && <div>Loading Chart Data...</div>}
             {error && <div>Error loading data: {String(error)}</div>}
             {!isLoading && !error && (
