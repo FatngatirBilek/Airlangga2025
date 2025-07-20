@@ -1,6 +1,7 @@
 "use client";
 import useSWR from "swr";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import {
   Chart,
   ArcElement,
@@ -38,74 +39,37 @@ interface SuaraData {
   count: number;
 }
 
-function generateColor(index: number, total: number): string {
-  const hue = Math.round((index * (360 / total)) % 360);
-  const saturation = 90;
-  const lightness = 50;
-  return `hsla(${hue}, ${saturation}%, ${lightness}%, 0.6)`;
-}
+const pastelColors = [
+  "rgba(255, 233, 122, 0.85)", // yellow
+  "rgba(255, 176, 163, 0.85)", // pink
+  "rgba(127, 255, 236, 0.85)", // cyan
+  "rgba(163, 255, 176, 0.85)", // green (for extra paslon)
+];
+const pastelBorders = [
+  "rgba(255, 233, 122, 1)",
+  "rgba(255, 176, 163, 1)",
+  "rgba(127, 255, 236, 1)",
+  "rgba(163, 255, 176, 1)",
+];
 
-function generateBorderColor(color: string): string {
-  return color.replace("5", "1").replace("60%", "50%");
-}
+const paslonImages = [
+  "/images/paslon1.png",
+  "/images/paslon2.png",
+  "/images/paslon3.png",
+];
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const options: ChartOptions<"bar"> = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
-    legend: {
-      position: "top" as const,
-      labels: {
-        generateLabels: (chart): LegendItem[] => {
-          const data = chart.data;
-          if (data.labels && data.datasets.length) {
-            const dataset = data.datasets[0];
-
-            const backgroundColors = Array.isArray(dataset.backgroundColor)
-              ? (dataset.backgroundColor as string[])
-              : [];
-            const borderColors = Array.isArray(dataset.borderColor)
-              ? (dataset.borderColor as string[])
-              : [];
-
-            return (data.labels as string[]).map((label, index) => {
-              const text = typeof label === "string" ? label : String(label);
-              const fillStyle =
-                backgroundColors[index % backgroundColors.length] ||
-                "rgba(0,0,0,0.1)";
-              const strokeStyle =
-                borderColors[index % borderColors.length] || "rgba(0,0,0,0.1)";
-              return {
-                text: text,
-                fillStyle: fillStyle,
-                strokeStyle: strokeStyle,
-                lineWidth: 1,
-                hidden: !chart.isDatasetVisible(0),
-                index: index,
-                datasetIndex: 0,
-              };
-            });
-          }
-          return [];
-        },
-      },
-    },
-    title: {
-      display: true,
-      text: "Hasil Perhitungan Suara",
-      font: { size: 18 },
-    },
+    legend: { display: false },
+    title: { display: false },
     tooltip: {
       callbacks: {
         label: function (context) {
-          let label = context.dataset.label || "";
-          if (label) {
-            label += ": ";
-          }
-          if (context.parsed.y !== null) {
-            label += context.parsed.y;
-          }
-          return label;
+          return `${context.dataset.label || ""}: ${context.parsed.y}`;
         },
       },
     },
@@ -114,14 +78,14 @@ const options: ChartOptions<"bar"> = {
     y: {
       beginAtZero: true,
       title: { display: true, text: "Jumlah Suara" },
+      grid: { color: "rgba(0,0,0,0.05)" },
     },
     x: {
       title: { display: true, text: "Kandidat" },
+      grid: { display: false },
     },
   },
 };
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function ChartView() {
   const chartRef = useRef<HTMLCanvasElement>(null);
@@ -133,10 +97,10 @@ export default function ChartView() {
     isLoading,
   } = useSWR<SuaraData[]>("/api/suara", fetcher, {
     revalidateOnFocus: true,
-    refreshInterval: 5000, // Auto-refresh every 5 seconds
+    refreshInterval: 5000,
   });
 
-  // Build chartData from apiData
+  // Chart.js data
   const chartData: ChartData<"bar"> = {
     labels: apiData ? apiData.map((item) => item.nama) : [],
     datasets: [
@@ -144,14 +108,15 @@ export default function ChartView() {
         label: "Jumlah Suara",
         data: apiData ? apiData.map((item) => item.count) : [],
         backgroundColor: apiData
-          ? apiData.map((_, index) => generateColor(index, apiData.length))
+          ? apiData.map((_, idx) => pastelColors[idx % pastelColors.length])
           : [],
         borderColor: apiData
-          ? apiData.map((_, index) =>
-              generateBorderColor(generateColor(index, apiData.length)),
-            )
+          ? apiData.map((_, idx) => pastelBorders[idx % pastelBorders.length])
           : [],
-        borderWidth: 1,
+        borderWidth: 2,
+        borderRadius: 8,
+        barPercentage: 0.7,
+        categoryPercentage: 0.7,
       },
     ],
   };
@@ -180,16 +145,73 @@ export default function ChartView() {
   }, [JSON.stringify(chartData), isLoading, error]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-3xl font-bold mb-6">Dashboard Perhitungan Suara</h1>
-      <div className="w-full max-w-3xl bg-white shadow-xl rounded-lg p-6">
-        {isLoading && <div>Loading Chart Data...</div>}
-        {error && <div>Error loading data: {String(error)}</div>}
-        {!isLoading && !error && (
-          <div style={{ position: "relative", height: "450px", width: "100%" }}>
-            <canvas ref={chartRef} id="mySuaraChart"></canvas>
+    <div
+      className="relative min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{
+        backgroundImage: 'url("/your-background-image.jpg")', // Set your forest background image here
+      }}
+    >
+      {/* Optional: School/organization logos */}
+      <Image
+        src="/images/logosmk.svg"
+        alt="Logo"
+        className="absolute top-8 left-8 h-24 w-auto z-20"
+        width={96}
+        height={96}
+        priority
+      />
+      <Image
+        src="/images/logompk.svg"
+        alt="Logo"
+        className="absolute top-8 right-8 h-24 w-auto z-20"
+        width={96}
+        height={96}
+        priority
+      />
+
+      {/* Glass panel */}
+      <div className="flex flex-row w-[900px] h-[500px] bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl p-8 z-10">
+        {/* Candidate List */}
+        <div className="flex flex-col justify-center gap-6 w-56 pr-6">
+          {apiData &&
+            apiData.map((c, idx) => (
+              <div
+                key={c._id}
+                className="bg-white/80 rounded-xl shadow p-3 flex flex-col items-center"
+              >
+                <div className="w-16 h-16 mb-2 relative">
+                  <Image
+                    src={paslonImages[idx] || "/images/paslon1.png"}
+                    alt={`Paslon ${c.nomor}`}
+                    fill
+                    className="object-cover rounded-lg"
+                    sizes="64px"
+                    priority
+                  />
+                </div>
+                <span className="font-bold text-md uppercase tracking-wider mb-1">
+                  PASLON {c.nomor}
+                </span>
+                <span className="text-xs font-semibold text-gray-700 text-center">
+                  {c.nama}
+                </span>
+              </div>
+            ))}
+        </div>
+
+        {/* Chart Section */}
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <h1 className="text-3xl font-extrabold uppercase tracking-[0.18em] text-white drop-shadow mb-2 text-center">
+            Dashboard Perhitungan Suara Airlangga 2025
+          </h1>
+          <div style={{ position: "relative", height: "340px", width: "100%" }}>
+            {isLoading && <div>Loading Chart Data...</div>}
+            {error && <div>Error loading data: {String(error)}</div>}
+            {!isLoading && !error && (
+              <canvas ref={chartRef} id="mySuaraChart"></canvas>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

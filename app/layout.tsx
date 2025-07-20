@@ -32,7 +32,7 @@ export default function RootLayout({
           <SignedIn>
             <UserButton />
           </SignedIn>
-          <div className="max-w-3xl mx-auto">{children}</div>
+          <div className="">{children}</div>
         </body>
       </html>
     </ClerkProvider>
