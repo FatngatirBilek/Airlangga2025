@@ -169,12 +169,7 @@ export default function ChartView() {
   }, [JSON.stringify(chartData), isLoading, error]);
 
   return (
-    <div
-      className="relative min-h-screen flex items-center justify-center bg-cover bg-center"
-      style={{
-        backgroundImage: 'url("/your-background-image.jpg")', // Set your forest background image here
-      }}
-    >
+    <div className="relative min-h-screen flex items-center justify-center">
       <Image
         src="/images/logosmk.svg"
         alt="Logo"
@@ -192,7 +187,7 @@ export default function ChartView() {
         priority
       />
 
-      <div className="flex flex-row w-[900px] h-[500px] bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 z-10">
+      <div className="flex flex-row w-[1030px] h-[600px] bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 z-10">
         {/* Candidate List */}
         <div className="flex flex-col justify-center gap-6 w-56 pr-6">
           {apiData &&
@@ -226,7 +221,7 @@ export default function ChartView() {
           <h1 className="text-3xl font-extrabold uppercase tracking-[0.18em] text-white drop-shadow mb-2 text-center">
             Dashboard Perhitungan Suara Airlangga 2025
           </h1>
-          <div style={{ position: "relative", height: "340px", width: "100%" }}>
+          <div style={{ position: "relative", height: "420px", width: "100%" }}>
             {isLoading && <div>Loading Chart Data...</div>}
             {error && <div>Error loading data: {String(error)}</div>}
             {!isLoading && !error && (
