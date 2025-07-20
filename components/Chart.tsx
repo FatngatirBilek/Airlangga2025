@@ -40,16 +40,14 @@ interface SuaraData {
 }
 
 const pastelColors = [
-  "rgba(255, 233, 122, 0.85)", // yellow
-  "rgba(255, 176, 163, 0.85)", // pink
-  "rgba(127, 255, 236, 0.85)", // cyan
-  "rgba(163, 255, 176, 0.85)", // green (for extra paslon)
+  "rgba(255, 233, 122, 1)", // yellow
+  "rgba(255, 176, 163, 1)", // pink
+  "rgba(127, 255, 236, 1)", // cyan
 ];
 const pastelBorders = [
   "rgba(255, 233, 122, 1)",
   "rgba(255, 176, 163, 1)",
   "rgba(127, 255, 236, 1)",
-  "rgba(163, 255, 176, 1)",
 ];
 
 const paslonImages = [
@@ -77,12 +75,38 @@ const options: ChartOptions<"bar"> = {
   scales: {
     y: {
       beginAtZero: true,
-      title: { display: true, text: "Jumlah Suara" },
-      grid: { color: "rgba(0,0,0,0.05)" },
+      title: {
+        display: true,
+        text: "Jumlah Suara",
+        color: "#fff",
+        font: { weight: "bold" },
+      },
+      ticks: {
+        color: "#fff",
+        font: { weight: "bold" },
+      },
+      grid: {
+        color: "rgba(255,255,255,0.16)",
+        lineWidth: 1.5,
+      },
     },
     x: {
-      title: { display: true, text: "Kandidat" },
-      grid: { display: false },
+      title: {
+        display: true,
+        text: "Kandidat",
+        color: "#fff",
+        font: { weight: "bold" },
+      },
+      ticks: {
+        color: "#fff",
+        font: { weight: "bold" },
+      },
+      grid: {
+        display: false,
+        color: "rgba(255,255,255,0.16)",
+        lineWidth: 1.5,
+        drawTicks: false,
+      },
     },
   },
 };
@@ -151,7 +175,6 @@ export default function ChartView() {
         backgroundImage: 'url("/your-background-image.jpg")', // Set your forest background image here
       }}
     >
-      {/* Optional: School/organization logos */}
       <Image
         src="/images/logosmk.svg"
         alt="Logo"
@@ -169,15 +192,14 @@ export default function ChartView() {
         priority
       />
 
-      {/* Glass panel */}
-      <div className="flex flex-row w-[900px] h-[500px] bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl p-8 z-10">
+      <div className="flex flex-row w-[900px] h-[500px] bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 z-10">
         {/* Candidate List */}
         <div className="flex flex-col justify-center gap-6 w-56 pr-6">
           {apiData &&
             apiData.map((c, idx) => (
               <div
                 key={c._id}
-                className="bg-white/80 rounded-xl shadow p-3 flex flex-col items-center"
+                className="bg-[#7fbc8b] rounded-xl shadow p-3 flex flex-col items-center"
               >
                 <div className="w-16 h-16 mb-2 relative">
                   <Image
