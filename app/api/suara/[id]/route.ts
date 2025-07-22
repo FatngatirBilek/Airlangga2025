@@ -2,12 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import connect from "@/lib/databaseconnect";
 import Suara from "@/models/suara";
 
-interface Params {
-  id: string;
-}
-
-export async function PUT(request: NextRequest, context: { params: Params }) {
-  const { id } = context.params;
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
   const {
     newNama: nama,
     newNomor: nomor,
@@ -21,8 +20,11 @@ export async function PUT(request: NextRequest, context: { params: Params }) {
   );
 }
 
-export async function GET(_: NextRequest, context: { params: Params }) {
-  const { id } = context.params;
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
   await connect();
   const suara = await Suara.findOne({ _id: id });
   if (!suara) {
