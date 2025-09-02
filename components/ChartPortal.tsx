@@ -2,7 +2,6 @@
 import useSWR from "swr";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import background from "@/public/images/portalbg.png";
 import {
   Chart,
   ArcElement,
@@ -11,25 +10,36 @@ import {
   DoughnutController,
 } from "chart.js";
 
-// Register for doughnut chart!
 Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
 
 interface SuaraData {
   _id: string;
-  nama: string;
-  nomor: number;
+  nama: string; // Candidate names from DB, e.g. "Rizal - Nana"
+  nomor: number; // Candidate number (1, 2, 3)
   count: number;
 }
 
-// Pastel colors for chart sections
-const pastelColors = [
-  "#FFD95A", // yellow
-  "#41B3F4", // blue
-  "#FF7597", // pink
+// Pastel colors for chart
+const donutColors = [
+  "rgba(255, 233, 122, 1)", // yellow
+  "rgba(107, 176, 74, 1)", // green
+  "rgba(135, 90, 71, 1)", // brown
+];
+const donutBorders = [
+  "rgba(255, 233, 122, 1)",
+  "rgba(107, 176, 74, 1)",
+  "rgba(135, 90, 80, 1)",
 ];
 
-// Borders for Pie
-const pastelBorders = ["#FFD95A", "#41B3F4", "#FF7597"];
+// Candidate images (each matches paslon number)
+const paslonImages = [
+  "/images/paslon1.png",
+  "/images/paslon2.png",
+  "/images/paslon3.png",
+];
+
+// Background image
+const portalBg = "/images/portalbg.png";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -37,11 +47,7 @@ const options = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
-    legend: {
-      display: true,
-      labels: { color: "#333", font: { weight: "bold", size: 16 } },
-      position: "bottom",
-    },
+    legend: { display: false },
     tooltip: {
       callbacks: {
         label: function (context: any) {
@@ -52,7 +58,7 @@ const options = {
       },
     },
   },
-  cutout: "65%", // Controls the "hole" size
+  cutout: "60%",
 };
 
 export default function ChartPortal() {
@@ -68,19 +74,23 @@ export default function ChartPortal() {
     refreshInterval: 5000,
   });
 
-  // Prepare chart data for doughnut
+  // Sort paslon by nomor for consistency
+  const sortedPaslon = apiData
+    ? [...apiData].sort((a, b) => a.nomor - b.nomor)
+    : [];
+
   const chartData = {
-    labels: apiData ? apiData.map((item) => item.nama) : [],
+    labels: sortedPaslon.map((item) => item.nama),
     datasets: [
       {
         label: "Jumlah Suara",
-        data: apiData ? apiData.map((item) => item.count) : [],
-        backgroundColor: apiData
-          ? apiData.map((_, idx) => pastelColors[idx % pastelColors.length])
-          : [],
-        borderColor: apiData
-          ? apiData.map((_, idx) => pastelBorders[idx % pastelBorders.length])
-          : [],
+        data: sortedPaslon.map((item) => item.count),
+        backgroundColor: sortedPaslon.map(
+          (_, idx) => donutColors[idx % donutColors.length],
+        ),
+        borderColor: sortedPaslon.map(
+          (_, idx) => donutBorders[idx % donutBorders.length],
+        ),
         borderWidth: 4,
       },
     ],
@@ -110,11 +120,17 @@ export default function ChartPortal() {
   }, [JSON.stringify(chartData), isLoading, error]);
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center">
-      {/* Background Image */}
+    <div
+      className="relative min-h-screen w-full overflow-hidden"
+      style={{
+        minHeight: "100vh",
+        width: "100vw",
+      }}
+    >
+      {/* Background image */}
       <div className="fixed inset-0 -z-10">
         <Image
-          src={background}
+          src={portalBg}
           alt="background image"
           fill
           className="object-cover"
@@ -122,18 +138,108 @@ export default function ChartPortal() {
           priority
         />
       </div>
-      {/* Chart Section */}
-      <div className="flex flex-col items-center justify-center w-[700px] h-[700px] bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 z-10">
-        <h1 className="text-3xl font-extrabold uppercase tracking-[0.18em] text-gray-800 drop-shadow mb-2 text-center">
-          Dashboard Perhitungan Suara Airlangga 2025
-        </h1>
-        <div style={{ position: "relative", height: "540px", width: "100%" }}>
-          {isLoading && <div>Loading Chart Data...</div>}
-          {error && <div>Error loading data: {String(error)}</div>}
-          {!isLoading && !error && (
-            <canvas ref={chartRef} id="mySuaraPieChart"></canvas>
-          )}
+
+      {/* Centered chart and title */}
+      <div className="absolute left-0 top-0 w-full h-full flex items-center justify-center">
+        <div
+          className="flex flex-col items-center justify-center"
+          style={{ width: 900 }}
+        >
+          <h1
+            className="text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
+            style={{ marginBottom: 24, textShadow: "0 3px 12px #222" }}
+          >
+            DASHBOARD PERHITUNGAN SUARA
+            <br />
+            AIRLANGGA 2025
+          </h1>
+          <div
+            style={{
+              position: "relative",
+              height: "420px",
+              width: "420px",
+              borderRadius: "50%",
+              boxShadow: "0 0 50px 15px #4cff15, 0 0 0 14px #222 inset",
+              background: "rgba(48,255,70,0.18)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {isLoading && (
+              <div className="text-white font-bold text-xl">
+                Loading Chart Data...
+              </div>
+            )}
+            {error && (
+              <div className="text-red-600 font-bold text-xl">
+                Error loading data: {String(error)}
+              </div>
+            )}
+            {!isLoading && !error && (
+              <canvas
+                ref={chartRef}
+                id="mySuaraPieChart"
+                width={420}
+                height={420}
+              ></canvas>
+            )}
+          </div>
         </div>
+      </div>
+
+      {/* Paslon cards on right, color and layout matching your latest screenshot */}
+      <div
+        className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-8"
+        style={{
+          width: 270,
+          background: "none",
+          backdropFilter: "none",
+        }}
+      >
+        {sortedPaslon.map((c, idx) => (
+          <div
+            key={c._id}
+            className="flex flex-col items-center p-0 rounded-2xl"
+            style={{
+              background: "#8fd6a9", // pastel green for lower box
+              boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+              borderRadius: 18,
+              overflow: "hidden",
+            }}
+          >
+            <div
+              className="w-full h-32 rounded-t-xl overflow-hidden flex items-center justify-center"
+              style={{
+                minHeight: 0,
+                background: "#eaf7ea", // light green for upper box
+                borderTopLeftRadius: 18,
+                borderTopRightRadius: 18,
+              }}
+            >
+              <Image
+                src={paslonImages[idx] || paslonImages[0]}
+                alt={`Paslon ${c.nomor}`}
+                width={270}
+                height={128}
+                className="object-cover object-top"
+                style={{
+                  objectFit: "cover",
+                  objectPosition: "top",
+                  height: "100%",
+                  width: "100%",
+                }}
+                priority
+              />
+            </div>
+            <span className="font-bold text-lg uppercase tracking-wider mt-2 mb-1 text-[#2c4b36] text-center">
+              PASLON {c.nomor}
+            </span>
+            <span className="text-md font-semibold text-gray-800 text-center mb-2">
+              {c.nama}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
