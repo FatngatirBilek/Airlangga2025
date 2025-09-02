@@ -14,31 +14,25 @@ Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
 
 interface SuaraData {
   _id: string;
-  nama: string; // Candidate names from DB, e.g. "Rizal - Nana"
-  nomor: number; // Candidate number (1, 2, 3)
+  nama: string;
+  nomor: number;
   count: number;
 }
 
-// Pastel colors for chart
-const donutColors = [
-  "rgba(255, 233, 122, 1)", // yellow
-  "rgba(107, 176, 74, 1)", // green
-  "rgba(135, 90, 71, 1)", // brown
+// CHART COLORS from your sample image (cyan/blue/turquoise)
+const chartColors = [
+  "#A4FFFF", // bright cyan
+  "#239AFF", // bright blue
+  "#22CED6", // turquoise
 ];
-const donutBorders = [
-  "rgba(255, 233, 122, 1)",
-  "rgba(107, 176, 74, 1)",
-  "rgba(135, 90, 80, 1)",
-];
+const chartBorders = ["#A4FFFF", "#239AFF", "#22CED6"];
 
-// Candidate images (each matches paslon number)
 const paslonImages = [
-  "/images/paslon1.png",
-  "/images/paslon2.png",
-  "/images/paslon3.png",
+  "/images/paslon1.jpeg",
+  "/images/paslon2.jpeg",
+  "/images/paslon3.jpeg",
 ];
 
-// Background image
 const portalBg = "/images/portalbg.png";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -74,7 +68,6 @@ export default function ChartPortal() {
     refreshInterval: 5000,
   });
 
-  // Sort paslon by nomor for consistency
   const sortedPaslon = apiData
     ? [...apiData].sort((a, b) => a.nomor - b.nomor)
     : [];
@@ -86,10 +79,10 @@ export default function ChartPortal() {
         label: "Jumlah Suara",
         data: sortedPaslon.map((item) => item.count),
         backgroundColor: sortedPaslon.map(
-          (_, idx) => donutColors[idx % donutColors.length],
+          (_, idx) => chartColors[idx % chartColors.length],
         ),
         borderColor: sortedPaslon.map(
-          (_, idx) => donutBorders[idx % donutBorders.length],
+          (_, idx) => chartBorders[idx % chartBorders.length],
         ),
         borderWidth: 4,
       },
@@ -116,7 +109,6 @@ export default function ChartPortal() {
         chartInstanceRef.current = null;
       }
     };
-    // eslint-disable-next-line
   }, [JSON.stringify(chartData), isLoading, error]);
 
   return (
@@ -139,82 +131,108 @@ export default function ChartPortal() {
         />
       </div>
 
-      {/* Centered chart and title */}
-      <div className="absolute left-0 top-0 w-full h-full flex items-center justify-center">
-        <div
-          className="flex flex-col items-center justify-center"
-          style={{ width: 900 }}
+      {/* Title at the top, centered */}
+      <div className="absolute top-12 left-0 w-full flex justify-center z-10">
+        <h1
+          className="text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
+          style={{ textShadow: "0 3px 12px #222" }}
         >
-          <h1
-            className="text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
-            style={{ marginBottom: 24, textShadow: "0 3px 12px #222" }}
-          >
-            DASHBOARD PERHITUNGAN SUARA
-            <br />
-            AIRLANGGA 2025
-          </h1>
-          <div
-            style={{
-              position: "relative",
-              height: "420px",
-              width: "420px",
-              borderRadius: "50%",
-              boxShadow: "0 0 50px 15px #4cff15, 0 0 0 14px #222 inset",
-              background: "rgba(48,255,70,0.18)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {isLoading && (
-              <div className="text-white font-bold text-xl">
-                Loading Chart Data...
-              </div>
-            )}
-            {error && (
-              <div className="text-red-600 font-bold text-xl">
-                Error loading data: {String(error)}
-              </div>
-            )}
-            {!isLoading && !error && (
-              <canvas
-                ref={chartRef}
-                id="mySuaraPieChart"
-                width={420}
-                height={420}
-              ></canvas>
-            )}
-          </div>
+          DASHBOARD PERHITUNGAN SUARA
+          <br />
+          AIRLANGGA 2025
+        </h1>
+      </div>
+
+      {/* Chart perfectly centered */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10">
+        <div
+          style={{
+            position: "relative",
+            height: "420px",
+            width: "420px",
+            borderRadius: "50%",
+            boxShadow: "0 0 50px 15px #4cff15, 0 0 0 14px #222 inset",
+            background: "rgba(48,255,70,0.18)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {isLoading && (
+            <div className="text-white font-bold text-xl">
+              Loading Chart Data...
+            </div>
+          )}
+          {error && (
+            <div className="text-red-600 font-bold text-xl">
+              Error loading data: {String(error)}
+            </div>
+          )}
+          {!isLoading && !error && (
+            <canvas
+              ref={chartRef}
+              id="mySuaraPieChart"
+              width={420}
+              height={420}
+            ></canvas>
+          )}
         </div>
       </div>
 
-      {/* Paslon cards on right, color and layout matching your latest screenshot */}
+      {/* Paslon cards on right with blur background behind the PASLON IMAGE only */}
       <div
         className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-8"
         style={{
           width: 270,
-          background: "none",
-          backdropFilter: "none",
         }}
       >
         {sortedPaslon.map((c, idx) => (
           <div
             key={c._id}
-            className="flex flex-col items-center p-0 rounded-2xl"
+            className="flex flex-col items-center p-0 rounded-2xl relative"
             style={{
-              background: "#8fd6a9", // pastel green for lower box
-              boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
               borderRadius: 18,
               overflow: "hidden",
+              background: "#8fd6a9",
+              boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
             }}
           >
+            {/* Blur background behind the paslon image only */}
             <div
-              className="w-full h-32 rounded-t-xl overflow-hidden flex items-center justify-center"
+              className="absolute top-0 left-0 w-full h-32"
               style={{
-                minHeight: 0,
-                background: "#eaf7ea", // light green for upper box
                 borderTopLeftRadius: 18,
                 borderTopRightRadius: 18,
+                zIndex: 0,
+                overflow: "hidden",
+              }}
+            >
+              <Image
+                src={paslonImages[idx] || paslonImages[0]}
+                alt=""
+                width={270}
+                height={128}
+                className="object-cover object-top"
+                style={{
+                  objectFit: "cover",
+                  objectPosition: "top",
+                  filter: "blur(16px) brightness(0.9)",
+                  width: "100%",
+                  height: "100%",
+                  borderTopLeftRadius: 18,
+                  borderTopRightRadius: 18,
+                }}
+                priority
+              />
+            </div>
+            {/* Paslon image (sharp, in front of blur) */}
+            <div
+              className="w-full h-32 rounded-t-xl overflow-hidden flex items-center justify-center relative"
+              style={{
+                minHeight: 0,
+                borderTopLeftRadius: 18,
+                borderTopRightRadius: 18,
+                zIndex: 1,
               }}
             >
               <Image
@@ -226,18 +244,29 @@ export default function ChartPortal() {
                 style={{
                   objectFit: "cover",
                   objectPosition: "top",
-                  height: "100%",
                   width: "100%",
+                  height: "100%",
+                  borderTopLeftRadius: 18,
+                  borderTopRightRadius: 18,
                 }}
                 priority
               />
             </div>
-            <span className="font-bold text-lg uppercase tracking-wider mt-2 mb-1 text-[#2c4b36] text-center">
-              PASLON {c.nomor}
-            </span>
-            <span className="text-md font-semibold text-gray-800 text-center mb-2">
-              {c.nama}
-            </span>
+            {/* Paslon info */}
+            <div
+              className="w-full rounded-b-xl flex flex-col items-center py-3 relative"
+              style={{
+                background: "#8fd6a9",
+                zIndex: 1,
+              }}
+            >
+              <span className="font-bold text-lg uppercase tracking-wider mb-1 text-[#2c4b36] text-center">
+                PASLON {c.nomor}
+              </span>
+              <span className="text-md font-semibold text-gray-800 text-center">
+                {c.nama}
+              </span>
+            </div>
           </div>
         ))}
       </div>

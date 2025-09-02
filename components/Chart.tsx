@@ -38,22 +38,18 @@ interface SuaraData {
   count: number;
 }
 
-const pastelColors = [
-  "rgba(255, 233, 122, 1)",
-  "rgba(107, 176, 74, 1)",
-  "rgba(135, 90, 71,1)",
+// CHART COLORS (cyan/blue/turquoise)
+const chartColors = [
+  "#A4FFFF", // bright cyan
+  "#239AFF", // bright blue
+  "#22CED6", // turquoise
 ];
-
-const pastelBorders = [
-  "rgba(255, 233, 122, 1)",
-  "rgba(107, 176, 74, 1)",
-  "rgba(135, 90, 80,1)",
-];
+const chartBorders = ["#A4FFFF", "#239AFF", "#22CED6"];
 
 const paslonImages = [
-  "/images/paslon1.png",
-  "/images/paslon2.png",
-  "/images/paslon3.png",
+  "/images/paslon1.jpeg",
+  "/images/paslon2.jpeg",
+  "/images/paslon3.jpeg",
 ];
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -131,10 +127,10 @@ export default function ChartView() {
         label: "Jumlah Suara",
         data: apiData ? apiData.map((item) => item.count) : [],
         backgroundColor: apiData
-          ? apiData.map((_, idx) => pastelColors[idx % pastelColors.length])
+          ? apiData.map((_, idx) => chartColors[idx % chartColors.length])
           : [],
         borderColor: apiData
-          ? apiData.map((_, idx) => pastelBorders[idx % pastelBorders.length])
+          ? apiData.map((_, idx) => chartBorders[idx % chartBorders.length])
           : [],
         borderWidth: 2,
         borderRadius: 8,
