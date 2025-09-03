@@ -140,7 +140,7 @@ export default function ChartPortal() {
         priority
       />
       {/* Title */}
-      <div className="absolute top-12 left-0 w-full flex justify-center z-10">
+      <div className="absolute top-20 left-0 w-full flex justify-center z-10">
         <h1
           className="text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
           style={{ textShadow: "0 3px 12px #222" }}
@@ -244,7 +244,7 @@ export default function ChartPortal() {
                   alt={`Paslon ${c.nomor}`}
                   width={260}
                   height={110}
-                  className="object-cover"
+                  className="object-cover object-top"
                   style={{
                     objectFit: "cover",
                     width: "260px",
