@@ -75,15 +75,15 @@ const options: ChartOptions<"bar"> = {
         display: true,
         text: "Jumlah Suara",
         color: "#fff",
-        font: { weight: "bold", size: 20 },
+        font: { weight: "bold", size: 17 },
       },
       ticks: {
         color: "#fff",
-        font: { weight: "bold" },
+        font: { weight: "bold", size: 13 },
       },
       grid: {
         color: "rgba(255,255,255,0.16)",
-        lineWidth: 1.5,
+        lineWidth: 1.1,
       },
     },
     x: {
@@ -91,16 +91,16 @@ const options: ChartOptions<"bar"> = {
         display: true,
         text: "Kandidat",
         color: "#fff",
-        font: { weight: "bold", size: 20 },
+        font: { weight: "bold", size: 17 },
       },
       ticks: {
         color: "#fff",
-        font: { weight: "bold" },
+        font: { weight: "bold", size: 13 },
       },
       grid: {
         display: false,
         color: "rgba(255,255,255,0.16)",
-        lineWidth: 1.5,
+        lineWidth: 1.1,
         drawTicks: false,
       },
     },
@@ -133,9 +133,9 @@ export default function ChartView() {
           ? apiData.map((_, idx) => chartBorders[idx % chartBorders.length])
           : [],
         borderWidth: 2,
-        borderRadius: 8,
-        barPercentage: 0.7,
-        categoryPercentage: 0.7,
+        borderRadius: 7,
+        barPercentage: 0.62,
+        categoryPercentage: 0.62,
       },
     ],
   };
@@ -178,32 +178,41 @@ export default function ChartView() {
       <Image
         src="/images/logosmk.svg"
         alt="Logo"
-        className="absolute top-8 left-8 h-24 w-auto z-20"
-        width={96}
-        height={96}
+        className="absolute top-6 left-6 h-24 w-auto z-20"
+        width={80}
+        height={80}
         priority
       />
       <Image
         src="/images/logompk.svg"
         alt="Logo"
-        className="absolute top-8 right-8 h-24 w-auto z-20"
-        width={96}
-        height={96}
+        className="absolute top-6 right-6 h-20 w-auto z-20"
+        width={80}
+        height={80}
         priority
       />
 
-      <div className="flex flex-row w-[1100px] h-[700px] bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 z-10">
-        {/* Candidate List */}
-        <div className="flex flex-col justify-center gap-7 w-72 pr-10">
+      {/* Smaller glass background and contents */}
+      <div
+        className="flex flex-row bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-6 z-10"
+        style={{
+          width: "calc(100vw - 180px)",
+          maxWidth: "1080px",
+          height: "calc(70vh - 120px)",
+          minHeight: "550px",
+          alignItems: "center",
+        }}
+      >
+        {/* Candidate List - smaller */}
+        <div className="flex flex-col justify-center gap-7 w-72 pr-8">
           {apiData &&
             apiData.map((c, idx) => (
               <div key={c._id} className="flex flex-col items-stretch">
-                {/* Fix: Use parent div with position: relative and set height, remove fill's style.height */}
                 <div
                   style={{
                     position: "relative",
                     width: "100%",
-                    height: 140,
+                    height: 110,
                     borderTopLeftRadius: 16,
                     borderTopRightRadius: 16,
                     overflow: "hidden",
@@ -224,35 +233,38 @@ export default function ChartView() {
                 </div>
                 {/* Info Box */}
                 <div
-                  className="bg-[#87b792] px-2 py-3 rounded-b-xl shadow -mt-2 flex flex-col items-center"
-                  style={{ borderRadius: "0 0 18px 18px" }}
+                  className="px-2 py-2 rounded-b-xl shadow -mt-2 flex flex-col items-center"
+                  style={{
+                    borderRadius: "0 0 16px 16px",
+                    background: "#87b792",
+                  }}
                 >
                   <span
-                    className="font-bold text-[14px] uppercase tracking-wider mb-1"
+                    className="font-bold text-[13px] uppercase tracking-wider mb-1"
                     style={{
                       background: "#FF7000",
-                      borderRadius: 18,
+                      borderRadius: 15,
                       color: "#fff",
-                      padding: "5px 18px",
+                      padding: "5px 22px",
                       width: "fit-content",
                       fontWeight: 700,
-                      fontSize: "0.95rem",
-                      marginBottom: 7,
-                      marginTop: 3,
+                      fontSize: "0.93rem",
+                      marginBottom: 5,
+                      marginTop: 2,
                     }}
                   >
                     Paslon {c.nomor}
                   </span>
                   <span
-                    className="font-bold text-[13px] text-center"
+                    className="font-bold text-[12px] text-center"
                     style={{
                       background: chartColors[idx % chartColors.length],
-                      borderRadius: 18,
+                      borderRadius: 15,
                       color: "#fff",
-                      padding: "5px 18px",
+                      padding: "5px 22px",
                       width: "fit-content",
                       fontWeight: 700,
-                      fontSize: "0.95rem",
+                      fontSize: "0.93rem",
                     }}
                   >
                     {c.nama}
@@ -262,12 +274,12 @@ export default function ChartView() {
             ))}
         </div>
 
-        {/* Chart Section */}
+        {/* Chart Section - smaller title and area */}
         <div className="flex-1 flex flex-col items-center justify-center">
-          <h1 className="text-xl font-extrabold uppercase tracking-[0.12em] text-white drop-shadow mb-2 text-center">
-            Dashboard Perhitungan Suara Airlangga 2025
+          <h1 className="text-lg font-extrabold uppercase tracking-[0.13em] text-white drop-shadow mb-2 text-center">
+            DASHBOARD PERHITUNGAN SUARA AIRLANGGA 2025
           </h1>
-          <div style={{ position: "relative", height: "540px", width: "100%" }}>
+          <div style={{ position: "relative", height: "400px", width: "100%" }}>
             {isLoading && <div>Loading Chart Data...</div>}
             {error && <div>Error loading data: {String(error)}</div>}
             {!isLoading && !error && (
