@@ -1,11 +1,57 @@
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+"use client";
+import { useDashboardEnabled } from "@/app/context/useDashboardEnabled";
 import EditAllSuara from "@/components/EditAllSuara";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import background from "@/public/images/dashboardbg.png";
 
-export default async function Page() {
-  const { userId } = await auth();
-  if (!userId) {
-    redirect("/sign-in");
-  }
-  return <EditAllSuara />;
+export default function DashboardPage() {
+  const { enabled, setEnabled, loading } = useDashboardEnabled();
+
+  if (loading) return <div>Loading...</div>;
+
+  // Chart toggle button to inject
+  const chartToggleButton = (
+    <motion.button
+      layout
+      whileTap={{ scale: 0.96 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+      onClick={() => setEnabled(!enabled)}
+      className={`px-5 py-2 rounded-lg font-semibold shadow transition-colors duration-300
+        ${
+          enabled
+            ? "bg-green-500 hover:bg-green-600"
+            : "bg-gray-600 hover:bg-gray-700"
+        }
+        text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-300`}
+      style={{
+        minWidth: "180px",
+        letterSpacing: "1px",
+      }}
+    >
+      {enabled ? "Disable Chart Portal" : "Enable Chart Portal"}
+    </motion.button>
+  );
+
+  return (
+    <div className="relative min-h-screen flex items-center justify-center">
+      {/* Background */}
+      <div className="fixed inset-0 -z-10">
+        <Image
+          src={background}
+          alt="background image"
+          fill
+          className="object-cover"
+          quality={100}
+          priority
+        />
+      </div>
+      {/* Card/Table */}
+      <div className="w-full flex justify-center">
+        <EditAllSuara chartToggleButton={chartToggleButton} />
+      </div>
+    </div>
+  );
 }

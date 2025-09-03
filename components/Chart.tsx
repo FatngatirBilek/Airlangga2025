@@ -2,6 +2,7 @@
 import useSWR from "swr";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import background from "@/public/images/bg.png";
 import {
   Chart,
   ArcElement,
@@ -165,6 +166,16 @@ export default function ChartView() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">
+      <div className="fixed inset-0 -z-10">
+        <Image
+          src={background}
+          alt="background image"
+          fill
+          className="object-cover"
+          quality={100}
+          priority
+        />
+      </div>
       <Image
         src="/images/logosmk.svg"
         alt="Logo"
