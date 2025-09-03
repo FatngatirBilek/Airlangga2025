@@ -20,7 +20,6 @@ interface SuaraData {
   count: number;
 }
 
-// CHART COLORS from your sample image (cyan/blue/turquoise)
 const chartColors = [
   "#A4FFFF", // bright cyan
   "#239AFF", // bright blue
@@ -69,13 +68,11 @@ export default function ChartPortal() {
     refreshInterval: 5000,
   });
 
-  // FIX: Memoize sortedPaslon so its reference is stable
   const sortedPaslon = useMemo(
     () => (apiData ? [...apiData].sort((a, b) => a.nomor - b.nomor) : []),
     [apiData],
   );
 
-  // Memoize chartData so it's stable unless sortedPaslon changes
   const chartData = useMemo(
     () => ({
       labels: sortedPaslon.map((item: SuaraData) => item.nama),
@@ -117,15 +114,6 @@ export default function ChartPortal() {
       }
     };
   }, [sortedPaslon, isLoading, error, chartData]);
-
-  // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-  // --- PIE CHART POSITION ADJUSTMENT ---
-  // Move the chart div down and to the left a little bit
-  // Example: from perfectly centered (top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2)
-  // To: slightly lower and left (e.g. top-[56%] left-[46%], same translate)
-  // This can be done with Tailwind arbitrary values or inline style if needed
-  // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-
   return (
     <div
       className="relative min-h-screen w-full overflow-hidden"
