@@ -16,23 +16,17 @@ Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
 interface SuaraData {
   _id: string;
   nama: string;
-  nomor: number;
-  count: number;
+  nomor: string; // "" for Golput
+  count: string;
 }
 
-// Chart colors based on your provided image
 const chartColors = [
   "#FFD600", // yellow
   "#FFA726", // orange
   "#FF5722", // deep orange
+  "#F9E8BE", // golput color
 ];
-const chartBorders = ["#FFD600", "#FFA726", "#FF5722"];
-const paslonImages = [
-  "/images/paslon1.jpeg",
-  "/images/paslon2.jpeg",
-  "/images/paslon3.jpeg",
-];
-const portalBg = "/images/portalbg.png";
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const options = {
@@ -66,33 +60,48 @@ export default function ChartPortal() {
     refreshInterval: 5000,
   });
 
-  const sortedPaslon = useMemo(
-    () => (apiData ? [...apiData].sort((a, b) => a.nomor - b.nomor) : []),
+  // Separate paslon and golput
+  const paslonData = useMemo(
+    () => apiData?.filter((d) => d.nomor !== "") ?? [],
+    [apiData],
+  );
+  const golputData = useMemo(
+    () => apiData?.find((d) => d.nama.toLowerCase() === "golput"),
     [apiData],
   );
 
+  // Chart data includes golput
   const chartData = useMemo(
     () => ({
-      labels: sortedPaslon.map((item: SuaraData) => item.nama),
+      labels: [...paslonData.map((item) => item.nama), "Golput"],
       datasets: [
         {
           label: "Jumlah Suara",
-          data: sortedPaslon.map((item: SuaraData) => item.count),
-          backgroundColor: sortedPaslon.map(
-            (_, idx) => chartColors[idx % chartColors.length],
-          ),
-          borderColor: sortedPaslon.map(
-            (_, idx) => chartBorders[idx % chartBorders.length],
-          ),
+          data: [
+            ...paslonData.map((item) => parseInt(item.count, 10)),
+            golputData ? parseInt(golputData.count, 10) : 0,
+          ],
+          backgroundColor: [
+            ...paslonData.map(
+              (_, idx) => chartColors[idx % chartColors.length],
+            ),
+            chartColors[3],
+          ],
+          borderColor: [
+            ...paslonData.map(
+              (_, idx) => chartColors[idx % chartColors.length],
+            ),
+            chartColors[3],
+          ],
           borderWidth: 4,
         },
       ],
     }),
-    [sortedPaslon],
+    [paslonData, golputData],
   );
 
   useEffect(() => {
-    if (chartRef.current && sortedPaslon.length && !isLoading && !error) {
+    if (chartRef.current && paslonData.length && !isLoading && !error) {
       const ctx = chartRef.current.getContext("2d");
       if (ctx) {
         if (chartInstanceRef.current) {
@@ -111,7 +120,19 @@ export default function ChartPortal() {
         chartInstanceRef.current = null;
       }
     };
-  }, [sortedPaslon, isLoading, error, chartData]);
+  }, [paslonData, golputData, isLoading, error, chartData]);
+
+  // Images (for demo)
+  const paslonImages = [
+    "/images/paslon1.jpeg",
+    "/images/paslon2.jpeg",
+    "/images/paslon3.jpeg",
+  ];
+  const portalBg = "/images/portalbg.png";
+
+  // Card sizing for "a little big but not too big"
+  const cardWidth = 280;
+  const cardImageHeight = 120;
 
   return (
     <div
@@ -135,15 +156,16 @@ export default function ChartPortal() {
         src="/images/logoportal.svg"
         alt="Logo"
         className="absolute top-8 left-8 h-30 w-auto z-20"
-        width={100}
-        height={100}
+        width={70}
+        height={70}
         priority
       />
+
       {/* Title */}
       <div className="absolute top-20 left-0 w-full flex justify-center z-10">
         <h1
           className="text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
-          style={{ textShadow: "0 3px 12px #222" }}
+          style={{ textShadow: "0 2px 8px #222" }}
         >
           DASHBOARD PERHITUNGAN SUARA
           <br />
@@ -187,107 +209,148 @@ export default function ChartPortal() {
         </div>
       </div>
 
-      {/* Single vertical glassy square for all paslon cards */}
+      {/* Cards container */}
       <div
         className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10"
         style={{
-          width: 340,
-          minHeight: 770,
+          width: cardWidth + 40,
+          minHeight: 640,
           height: "auto",
         }}
       >
-        {/* Glass effect container */}
         <div
           className="relative w-full"
           style={{
-            minHeight: 770,
-            borderRadius: 32,
+            borderRadius: 28,
             background: "rgba(255,255,255,0.20)",
             boxShadow: "0 12px 48px 0 rgba(0,0,0,0.20)",
-            border: "2.2px solid rgba(255,255,255,0.34)",
-            backdropFilter: "blur(32px) saturate(180%)",
-            WebkitBackdropFilter: "blur(32px) saturate(180%)",
-            padding: "32px 0",
+            border: "2px solid rgba(255,255,255,0.34)",
+            backdropFilter: "blur(28px) saturate(180%)",
+            WebkitBackdropFilter: "blur(28px) saturate(180%)",
+            padding: "28px 0",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          {/* Stack paslon cards inside */}
-          {sortedPaslon.map((c, idx) => (
-            <div
-              key={c._id}
-              className="flex flex-col items-center w-full"
-              style={{
-                borderRadius: 24,
-                background: "#82b892",
-                marginBottom: 32,
-                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                paddingBottom: 20,
-                paddingTop: 20,
-                width: "80%",
-                maxWidth: 280,
-              }}
-            >
-              {/* Paslon image */}
+          {apiData?.map((c, idx) =>
+            c.nama.toLowerCase() !== "golput" ? (
               <div
-                className="w-full flex justify-center"
+                key={c._id}
+                className="flex flex-col items-center w-full"
                 style={{
-                  marginBottom: "12px",
-                  borderTopLeftRadius: "24px",
-                  borderTopRightRadius: "24px",
-                  overflow: "hidden",
+                  borderRadius: 24,
+                  background: "#82b892",
+                  marginBottom: 24,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                  paddingBottom: 16,
+                  paddingTop: 16,
+                  width: cardWidth,
+                  maxWidth: cardWidth,
                 }}
               >
-                <Image
-                  src={paslonImages[idx] || paslonImages[0]}
-                  alt={`Paslon ${c.nomor}`}
-                  width={260}
-                  height={110}
-                  className="object-cover object-top"
+                {/* Paslon image */}
+                <div
+                  className="w-full flex justify-center"
                   style={{
-                    objectFit: "cover",
-                    width: "260px",
-                    height: "110px",
+                    marginBottom: "12px",
                     borderTopLeftRadius: "24px",
                     borderTopRightRadius: "24px",
+                    overflow: "hidden",
                   }}
-                  priority
-                />
+                >
+                  <Image
+                    src={paslonImages[idx] || paslonImages[0]}
+                    alt={`Paslon ${c.nomor}`}
+                    width={cardWidth - 16}
+                    height={cardImageHeight}
+                    className="object-cover object-top"
+                    style={{
+                      objectFit: "cover",
+                      width: `${cardWidth - 16}px`,
+                      height: `${cardImageHeight}px`,
+                      borderTopLeftRadius: "24px",
+                      borderTopRightRadius: "24px",
+                    }}
+                    priority
+                  />
+                </div>
+                {/* Paslon number bar */}
+                <div
+                  className="font-bold text-center"
+                  style={{
+                    background: "#FF7000",
+                    borderRadius: 16,
+                    padding: "8px 0",
+                    width: "80%",
+                    color: "#fff",
+                    fontWeight: 700,
+                    fontSize: "1.08rem",
+                    marginBottom: 10,
+                    textAlign: "center",
+                  }}
+                >
+                  {`Paslon ${c.nomor}`}
+                </div>
+                {/* Name */}
+                <div
+                  className="font-bold text-center"
+                  style={{
+                    background: chartColors[idx % chartColors.length],
+                    borderRadius: 16,
+                    padding: "8px 0",
+                    width: "80%",
+                    color: "#fff",
+                    fontWeight: 700,
+                    fontSize: "1.06rem",
+                    textAlign: "center",
+                  }}
+                >
+                  {c.nama}
+                </div>
               </div>
-              {/* Orange bar: Paslon number */}
+            ) : (
               <div
-                className="font-bold text-lg text-center"
+                key={c._id}
+                className="flex flex-col items-center w-full"
                 style={{
-                  background: "#FF7000",
-                  borderRadius: 18,
-                  padding: "6px 32px",
-                  width: "fit-content",
-                  color: "#fff",
-                  fontWeight: 700,
-                  fontSize: "1.12rem",
-                  marginBottom: 10,
+                  borderRadius: 24,
+                  background: "#F9E8BE",
+                  marginBottom: 24,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
+                  paddingBottom: 18,
+                  paddingTop: 18,
+                  width: cardWidth,
+                  maxWidth: cardWidth,
+                  justifyContent: "center",
                 }}
               >
-                Paslon {c.nomor}
+                <span
+                  style={{
+                    color: "#594013",
+                    fontWeight: 900,
+                    fontSize: "1.13rem",
+                    textAlign: "center",
+                    letterSpacing: "0.07em",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  Golput
+                </span>
+                <span
+                  style={{
+                    color: "#594013",
+                    fontWeight: 600,
+                    fontSize: "1.02rem",
+                    textAlign: "center",
+                    marginTop: "8px",
+                  }}
+                >
+                  {c.count ? `${c.count} suara` : ""}
+                </span>
               </div>
-              {/* Name - matches chart color */}
-              <div
-                className="font-bold text-md text-center"
-                style={{
-                  background: chartColors[idx % chartColors.length],
-                  borderRadius: 18,
-                  padding: "6px 32px",
-                  width: "fit-content",
-                  color: "#fff",
-                  fontWeight: 700,
-                  fontSize: "1.08rem",
-                }}
-              >
-                {c.nama}
-              </div>
-            </div>
-          ))}
+            ),
+          )}
         </div>
       </div>
     </div>
