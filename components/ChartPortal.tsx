@@ -1,6 +1,6 @@
 "use client";
 import useSWR from "swr";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import {
   Chart,
@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
   DoughnutController,
+  TooltipItem,
 } from "chart.js";
 
 Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
@@ -44,7 +45,7 @@ const options = {
     legend: { display: false },
     tooltip: {
       callbacks: {
-        label: function (context: any) {
+        label: function (context: TooltipItem<"doughnut">): string {
           const label = context.label || "";
           const value = context.parsed || 0;
           return `${label}: ${value}`;
@@ -68,29 +69,35 @@ export default function ChartPortal() {
     refreshInterval: 5000,
   });
 
-  const sortedPaslon = apiData
-    ? [...apiData].sort((a, b) => a.nomor - b.nomor)
-    : [];
+  // FIX: Memoize sortedPaslon so its reference is stable
+  const sortedPaslon = useMemo(
+    () => (apiData ? [...apiData].sort((a, b) => a.nomor - b.nomor) : []),
+    [apiData],
+  );
 
-  const chartData = {
-    labels: sortedPaslon.map((item) => item.nama),
-    datasets: [
-      {
-        label: "Jumlah Suara",
-        data: sortedPaslon.map((item) => item.count),
-        backgroundColor: sortedPaslon.map(
-          (_, idx) => chartColors[idx % chartColors.length],
-        ),
-        borderColor: sortedPaslon.map(
-          (_, idx) => chartBorders[idx % chartBorders.length],
-        ),
-        borderWidth: 4,
-      },
-    ],
-  };
+  // Memoize chartData so it's stable unless sortedPaslon changes
+  const chartData = useMemo(
+    () => ({
+      labels: sortedPaslon.map((item: SuaraData) => item.nama),
+      datasets: [
+        {
+          label: "Jumlah Suara",
+          data: sortedPaslon.map((item: SuaraData) => item.count),
+          backgroundColor: sortedPaslon.map(
+            (_, idx) => chartColors[idx % chartColors.length],
+          ),
+          borderColor: sortedPaslon.map(
+            (_, idx) => chartBorders[idx % chartBorders.length],
+          ),
+          borderWidth: 4,
+        },
+      ],
+    }),
+    [sortedPaslon],
+  );
 
   useEffect(() => {
-    if (chartRef.current && apiData && !isLoading && !error) {
+    if (chartRef.current && sortedPaslon.length && !isLoading && !error) {
       const ctx = chartRef.current.getContext("2d");
       if (ctx) {
         if (chartInstanceRef.current) {
@@ -109,7 +116,7 @@ export default function ChartPortal() {
         chartInstanceRef.current = null;
       }
     };
-  }, [JSON.stringify(chartData), isLoading, error]);
+  }, [sortedPaslon, isLoading, error, chartData]);
 
   return (
     <div
@@ -130,7 +137,14 @@ export default function ChartPortal() {
           priority
         />
       </div>
-
+      <Image
+        src="/images/logoportal.svg"
+        alt="Logo"
+        className="absolute top-8 left-8 h-30 w-auto z-20"
+        width={100}
+        height={100}
+        priority
+      />
       {/* Title at the top, centered */}
       <div className="absolute top-12 left-0 w-full flex justify-center z-10">
         <h1
