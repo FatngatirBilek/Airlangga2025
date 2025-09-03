@@ -10,7 +10,6 @@ export default function DashboardPage() {
 
   if (loading) return <div>Loading...</div>;
 
-  // Chart toggle button to inject
   const chartToggleButton = (
     <motion.button
       layout
