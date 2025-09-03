@@ -20,21 +20,19 @@ interface SuaraData {
   count: number;
 }
 
+// Chart colors based on your provided image
 const chartColors = [
-  "#A4FFFF", // bright cyan
-  "#239AFF", // bright blue
-  "#22CED6", // turquoise
+  "#FFD600", // yellow
+  "#FFA726", // orange
+  "#FF5722", // deep orange
 ];
-const chartBorders = ["#A4FFFF", "#239AFF", "#22CED6"];
-
+const chartBorders = ["#FFD600", "#FFA726", "#FF5722"];
 const paslonImages = [
   "/images/paslon1.jpeg",
   "/images/paslon2.jpeg",
   "/images/paslon3.jpeg",
 ];
-
 const portalBg = "/images/portalbg.png";
-
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const options = {
@@ -114,13 +112,11 @@ export default function ChartPortal() {
       }
     };
   }, [sortedPaslon, isLoading, error, chartData]);
+
   return (
     <div
       className="relative min-h-screen w-full overflow-hidden"
-      style={{
-        minHeight: "100vh",
-        width: "100vw",
-      }}
+      style={{ minHeight: "100vh", width: "100vw" }}
     >
       {/* Background image */}
       <div className="fixed inset-0 -z-10">
@@ -133,6 +129,8 @@ export default function ChartPortal() {
           priority
         />
       </div>
+
+      {/* Logo */}
       <Image
         src="/images/logoportal.svg"
         alt="Logo"
@@ -141,7 +139,7 @@ export default function ChartPortal() {
         height={100}
         priority
       />
-      {/* Title at the top, centered */}
+      {/* Title */}
       <div className="absolute top-12 left-0 w-full flex justify-center z-10">
         <h1
           className="text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
@@ -153,6 +151,7 @@ export default function ChartPortal() {
         </h1>
       </div>
 
+      {/* Chart Centered */}
       <div className="absolute flex flex-col items-center justify-center z-10 left-[49%] top-[57%] -translate-x-1/2 -translate-y-1/2">
         <div
           style={{
@@ -188,96 +187,108 @@ export default function ChartPortal() {
         </div>
       </div>
 
-      {/* Paslon cards on right with blur background behind the PASLON IMAGE only */}
+      {/* Single vertical glassy square for all paslon cards */}
       <div
-        className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-8"
+        className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10"
         style={{
-          width: 270,
+          width: 340,
+          minHeight: 770,
+          height: "auto",
         }}
       >
-        {sortedPaslon.map((c, idx) => (
-          <div
-            key={c._id}
-            className="flex flex-col items-center p-0 rounded-2xl relative"
-            style={{
-              borderRadius: 18,
-              overflow: "hidden",
-              background: "#8fd6a9",
-              boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-            }}
-          >
-            {/* Blur background behind the paslon image only */}
+        {/* Glass effect container */}
+        <div
+          className="relative w-full"
+          style={{
+            minHeight: 770,
+            borderRadius: 32,
+            background: "rgba(255,255,255,0.20)",
+            boxShadow: "0 12px 48px 0 rgba(0,0,0,0.20)",
+            border: "2.2px solid rgba(255,255,255,0.34)",
+            backdropFilter: "blur(32px) saturate(180%)",
+            WebkitBackdropFilter: "blur(32px) saturate(180%)",
+            padding: "32px 0",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {/* Stack paslon cards inside */}
+          {sortedPaslon.map((c, idx) => (
             <div
-              className="absolute top-0 left-0 w-full h-32"
+              key={c._id}
+              className="flex flex-col items-center w-full"
               style={{
-                borderTopLeftRadius: 18,
-                borderTopRightRadius: 18,
-                zIndex: 0,
-                overflow: "hidden",
+                borderRadius: 24,
+                background: "#82b892",
+                marginBottom: 32,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                paddingBottom: 20,
+                paddingTop: 20,
+                width: "80%",
+                maxWidth: 280,
               }}
             >
-              <Image
-                src={paslonImages[idx] || paslonImages[0]}
-                alt=""
-                width={270}
-                height={128}
-                className="object-cover object-top"
+              {/* Paslon image */}
+              <div
+                className="w-full flex justify-center"
                 style={{
-                  objectFit: "cover",
-                  objectPosition: "top",
-                  filter: "blur(16px) brightness(0.9)",
-                  width: "100%",
-                  height: "100%",
-                  borderTopLeftRadius: 18,
-                  borderTopRightRadius: 18,
+                  marginBottom: "12px",
+                  borderTopLeftRadius: "24px",
+                  borderTopRightRadius: "24px",
+                  overflow: "hidden",
                 }}
-                priority
-              />
-            </div>
-            {/* Paslon image (sharp, in front of blur) */}
-            <div
-              className="w-full h-32 rounded-t-xl overflow-hidden flex items-center justify-center relative"
-              style={{
-                minHeight: 0,
-                borderTopLeftRadius: 18,
-                borderTopRightRadius: 18,
-                zIndex: 1,
-              }}
-            >
-              <Image
-                src={paslonImages[idx] || paslonImages[0]}
-                alt={`Paslon ${c.nomor}`}
-                width={270}
-                height={128}
-                className="object-cover object-top"
+              >
+                <Image
+                  src={paslonImages[idx] || paslonImages[0]}
+                  alt={`Paslon ${c.nomor}`}
+                  width={260}
+                  height={110}
+                  className="object-cover"
+                  style={{
+                    objectFit: "cover",
+                    width: "260px",
+                    height: "110px",
+                    borderTopLeftRadius: "24px",
+                    borderTopRightRadius: "24px",
+                  }}
+                  priority
+                />
+              </div>
+              {/* Orange bar: Paslon number */}
+              <div
+                className="font-bold text-lg text-center"
                 style={{
-                  objectFit: "cover",
-                  objectPosition: "top",
-                  width: "100%",
-                  height: "100%",
-                  borderTopLeftRadius: 18,
-                  borderTopRightRadius: 18,
+                  background: "#FF7000",
+                  borderRadius: 18,
+                  padding: "6px 32px",
+                  width: "fit-content",
+                  color: "#fff",
+                  fontWeight: 700,
+                  fontSize: "1.12rem",
+                  marginBottom: 10,
                 }}
-                priority
-              />
-            </div>
-            {/* Paslon info */}
-            <div
-              className="w-full rounded-b-xl flex flex-col items-center py-3 relative"
-              style={{
-                background: "#8fd6a9",
-                zIndex: 1,
-              }}
-            >
-              <span className="font-bold text-lg uppercase tracking-wider mb-1 text-[#2c4b36] text-center">
-                PASLON {c.nomor}
-              </span>
-              <span className="text-md font-semibold text-gray-800 text-center">
+              >
+                Paslon {c.nomor}
+              </div>
+              {/* Name - matches chart color */}
+              <div
+                className="font-bold text-md text-center"
+                style={{
+                  background: chartColors[idx % chartColors.length],
+                  borderRadius: 18,
+                  padding: "6px 32px",
+                  width: "fit-content",
+                  color: "#fff",
+                  fontWeight: 700,
+                  fontSize: "1.08rem",
+                }}
+              >
                 {c.nama}
-              </span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
