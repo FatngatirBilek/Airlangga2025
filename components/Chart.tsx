@@ -192,7 +192,7 @@ export default function ChartView() {
         priority
       />
 
-      {/* Smaller glass background and contents */}
+      {/* Glass background and contents */}
       <div
         className="flex flex-row bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-6 z-10"
         style={{
@@ -203,78 +203,91 @@ export default function ChartView() {
           alignItems: "center",
         }}
       >
-        {/* Candidate List - smaller */}
-        <div className="flex flex-col justify-center gap-7 w-72 pr-8">
+        {/* Candidate List */}
+        <div className="flex flex-col justify-center gap-8 w-80 pr-8">
           {apiData &&
             apiData.map((c, idx) => (
               <div key={c._id} className="flex flex-col items-stretch">
+                {/* Larger image container */}
                 <div
                   style={{
                     position: "relative",
                     width: "100%",
-                    height: 110,
-                    borderTopLeftRadius: 16,
-                    borderTopRightRadius: 16,
+                    height: "160px", // Visible enough
+                    borderRadius: "18px",
                     overflow: "hidden",
+                    background: "#fff",
+                    boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
                   }}
                 >
                   <Image
                     src={paslonImages[idx] || "/images/paslon1.png"}
                     alt={`Paslon ${c.nomor}`}
                     fill
-                    className="object-cover object-top"
+                    className="object-cover"
                     priority
                     style={{
-                      borderTopLeftRadius: "16px",
-                      borderTopRightRadius: "16px",
+                      borderRadius: "18px",
                       objectFit: "cover",
                     }}
                   />
-                </div>
-                {/* Info Box */}
-                <div
-                  className="px-2 py-2 rounded-b-xl shadow -mt-2 flex flex-col items-center"
-                  style={{
-                    borderRadius: "0 0 16px 16px",
-                    background: "#87b792",
-                  }}
-                >
-                  <span
-                    className="font-bold text-[13px] uppercase tracking-wider mb-1"
+                  {/* Pills FULL WIDTH at the bottom of the image, but SMALLER */}
+                  <div
                     style={{
-                      background: "#FF7000",
-                      borderRadius: 15,
-                      color: "#fff",
-                      padding: "5px 22px",
-                      width: "fit-content",
-                      fontWeight: 700,
-                      fontSize: "0.93rem",
-                      marginBottom: 5,
-                      marginTop: 2,
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "stretch",
+                      zIndex: 2,
+                      paddingBottom: "0px",
                     }}
                   >
-                    Paslon {c.nomor}
-                  </span>
-                  <span
-                    className="font-bold text-[12px] text-center"
-                    style={{
-                      background: chartColors[idx % chartColors.length],
-                      borderRadius: 15,
-                      color: "#fff",
-                      padding: "5px 22px",
-                      width: "fit-content",
-                      fontWeight: 700,
-                      fontSize: "0.93rem",
-                    }}
-                  >
-                    {c.nama}
-                  </span>
+                    <span
+                      style={{
+                        background: "#FF7000",
+                        color: "#fff",
+                        padding: "6px 0",
+                        fontWeight: 700,
+                        fontSize: "0.85rem",
+                        width: "100%",
+                        textAlign: "center",
+                        borderRadius: "0px",
+                        borderTopLeftRadius: "0px",
+                        borderTopRightRadius: "0px",
+                        letterSpacing: "0.02em",
+                      }}
+                    >
+                      PASLON {c.nomor}
+                    </span>
+                    <span
+                      style={{
+                        background: chartColors[idx % chartColors.length],
+                        color: "#fff",
+                        padding: "6px 0",
+                        fontWeight: 700,
+                        fontSize: "0.85rem",
+                        width: "100%",
+                        textAlign: "center",
+                        borderBottomLeftRadius: "18px",
+                        borderBottomRightRadius: "18px",
+                        borderTopLeftRadius: "0px",
+                        borderTopRightRadius: "0px",
+                        marginTop: "2px",
+                        letterSpacing: "0.02em",
+                      }}
+                    >
+                      {c.nama}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
         </div>
 
-        {/* Chart Section - smaller title and area */}
+        {/* Chart Section */}
         <div className="flex-1 flex flex-col items-center justify-center">
           <h1 className="text-lg font-extrabold uppercase tracking-[0.13em] text-white drop-shadow mb-2 text-center">
             DASHBOARD PERHITUNGAN SUARA AIRLANGGA 2025
