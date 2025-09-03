@@ -39,13 +39,12 @@ interface SuaraData {
   count: number;
 }
 
-// CHART COLORS (cyan/blue/turquoise)
 const chartColors = [
-  "#A4FFFF", // bright cyan
-  "#239AFF", // bright blue
-  "#22CED6", // turquoise
+  "#FFD600", // yellow
+  "#FFA726", // orange
+  "#FF5722", // deep orange
 ];
-const chartBorders = ["#A4FFFF", "#239AFF", "#22CED6"];
+const chartBorders = ["#FFD600", "#FFA726", "#FF5722"];
 
 const paslonImages = [
   "/images/paslon1.jpeg",
@@ -195,30 +194,67 @@ export default function ChartView() {
 
       <div className="flex flex-row w-[1100px] h-[700px] bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 z-10">
         {/* Candidate List */}
-        <div className="flex flex-col justify-center gap-5 w-48 pr-10">
+        <div className="flex flex-col justify-center gap-7 w-72 pr-10">
           {apiData &&
             apiData.map((c, idx) => (
               <div key={c._id} className="flex flex-col items-stretch">
-                {/* Stretched horizontally, always showing the top (object-top) */}
+                {/* Fix: Use parent div with position: relative and set height, remove fill's style.height */}
                 <div
-                  className="w-full aspect-[4/3] relative rounded-t-xl overflow-hidden"
-                  style={{ minHeight: 0, height: 92 }}
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: 140,
+                    borderTopLeftRadius: 16,
+                    borderTopRightRadius: 16,
+                    overflow: "hidden",
+                  }}
                 >
                   <Image
                     src={paslonImages[idx] || "/images/paslon1.png"}
                     alt={`Paslon ${c.nomor}`}
                     fill
                     className="object-cover object-top"
-                    sizes="192px"
                     priority
+                    style={{
+                      borderTopLeftRadius: "16px",
+                      borderTopRightRadius: "16px",
+                      objectFit: "cover",
+                    }}
                   />
                 </div>
                 {/* Info Box */}
-                <div className="bg-[#7fbc8b] px-2 py-3 rounded-b-xl shadow -mt-2 flex flex-col items-center">
-                  <span className="font-bold text-[15px] uppercase tracking-wider mb-1">
-                    PASLON {c.nomor}
+                <div
+                  className="bg-[#87b792] px-2 py-3 rounded-b-xl shadow -mt-2 flex flex-col items-center"
+                  style={{ borderRadius: "0 0 18px 18px" }}
+                >
+                  <span
+                    className="font-bold text-[14px] uppercase tracking-wider mb-1"
+                    style={{
+                      background: "#FF7000",
+                      borderRadius: 18,
+                      color: "#fff",
+                      padding: "5px 18px",
+                      width: "fit-content",
+                      fontWeight: 700,
+                      fontSize: "0.95rem",
+                      marginBottom: 7,
+                      marginTop: 3,
+                    }}
+                  >
+                    Paslon {c.nomor}
                   </span>
-                  <span className="text-xs font-semibold text-gray-700 text-center">
+                  <span
+                    className="font-bold text-[13px] text-center"
+                    style={{
+                      background: chartColors[idx % chartColors.length],
+                      borderRadius: 18,
+                      color: "#fff",
+                      padding: "5px 18px",
+                      width: "fit-content",
+                      fontWeight: 700,
+                      fontSize: "0.95rem",
+                    }}
+                  >
                     {c.nama}
                   </span>
                 </div>
@@ -228,7 +264,7 @@ export default function ChartView() {
 
         {/* Chart Section */}
         <div className="flex-1 flex flex-col items-center justify-center">
-          <h1 className="text-3xl font-extrabold uppercase tracking-[0.18em] text-white drop-shadow mb-2 text-center">
+          <h1 className="text-xl font-extrabold uppercase tracking-[0.12em] text-white drop-shadow mb-2 text-center">
             Dashboard Perhitungan Suara Airlangga 2025
           </h1>
           <div style={{ position: "relative", height: "540px", width: "100%" }}>
