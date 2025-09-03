@@ -118,6 +118,14 @@ export default function ChartPortal() {
     };
   }, [sortedPaslon, isLoading, error, chartData]);
 
+  // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+  // --- PIE CHART POSITION ADJUSTMENT ---
+  // Move the chart div down and to the left a little bit
+  // Example: from perfectly centered (top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2)
+  // To: slightly lower and left (e.g. top-[56%] left-[46%], same translate)
+  // This can be done with Tailwind arbitrary values or inline style if needed
+  // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
   return (
     <div
       className="relative min-h-screen w-full overflow-hidden"
@@ -157,8 +165,7 @@ export default function ChartPortal() {
         </h1>
       </div>
 
-      {/* Chart perfectly centered */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10">
+      <div className="absolute flex flex-col items-center justify-center z-10 left-[49%] top-[56%] -translate-x-1/2 -translate-y-1/2">
         <div
           style={{
             position: "relative",
