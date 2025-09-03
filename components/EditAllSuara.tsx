@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import useSWR from "swr";
 import Alert from "@mui/material/Alert";
 import Slide from "@mui/material/Slide";
@@ -13,21 +13,29 @@ interface Suara {
   count: string;
 }
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-type NotifType = "success" | "error" | "";
-
-export default function EditAllSuara() {
+// Add chartToggleButton prop
+export default function EditAllSuara({
+  chartToggleButton,
+}: {
+  chartToggleButton?: ReactNode;
+}) {
   const {
     data: suaraList,
     isLoading,
     mutate,
-  } = useSWR<Suara[]>("/api/suara", fetcher, {
-    refreshInterval: 5000,
-  });
+  } = useSWR<Suara[]>(
+    "/api/suara",
+    (url) => fetch(url).then((res) => res.json()),
+    {
+      refreshInterval: 5000,
+    },
+  );
 
   const [editList, setEditList] = useState<Suara[]>([]);
-  const [notif, setNotif] = useState<{ message: string; type: NotifType }>({
+  const [notif, setNotif] = useState<{
+    message: string;
+    type: "success" | "error" | "";
+  }>({
     message: "",
     type: "",
   });
@@ -73,81 +81,76 @@ export default function EditAllSuara() {
   if (isLoading || !editList) return <div>Loading...</div>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-2">
-      <div className="w-full max-w-4xl bg-[#10141f] rounded-xl p-5 shadow-lg mx-2">
-        <h2 className="text-3xl font-bold mb-8 text-gray-100">
-          Edit Semua Suara
-        </h2>
-        <div className="overflow-x-auto">
-          <table className="w-full rounded-lg">
-            <thead>
-              <tr>
-                <th className="px-4 py-3 text-left font-semibold text-gray-200 bg-[#141a28]">
-                  Nama
-                </th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-200 bg-[#141a28]">
-                  Nomor
-                </th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-200 bg-[#141a28]">
-                  Jumlah Suara
-                </th>
+    <div className="w-full max-w-4xl bg-[#10141f] rounded-xl p-5 shadow-lg mx-2">
+      <h2 className="text-3xl font-bold mb-8 text-gray-100 text-center">
+        Edit Semua Suara
+      </h2>
+      <div className="overflow-x-auto">
+        <table className="w-full rounded-lg">
+          <thead>
+            <tr>
+              <th className="px-4 py-3 text-left font-semibold text-gray-200 bg-[#141a28]">
+                Nama
+              </th>
+              <th className="px-4 py-3 text-left font-semibold text-gray-200 bg-[#141a28]">
+                Nomor
+              </th>
+              <th className="px-4 py-3 text-left font-semibold text-gray-200 bg-[#141a28]">
+                Jumlah Suara
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {editList.map((suara, idx) => (
+              <tr key={suara._id}>
+                <td className="px-4 py-2 bg-[#171c29]">
+                  <input
+                    type="text"
+                    value={suara.nama}
+                    onChange={(e) => handleChange(idx, "nama", e.target.value)}
+                    className="w-full px-3 py-2 rounded bg-[#232b3d] text-gray-100 border border-gray-700 focus:border-blue-600 outline-none transition"
+                  />
+                </td>
+                <td className="px-4 py-2 bg-[#171c29]">
+                  <input
+                    type="text"
+                    value={suara.nomor}
+                    onChange={(e) => handleChange(idx, "nomor", e.target.value)}
+                    className="w-full px-3 py-2 rounded bg-[#232b3d] text-gray-100 border border-gray-700 focus:border-blue-600 outline-none transition"
+                  />
+                </td>
+                <td className="px-4 py-2 bg-[#171c29]">
+                  <input
+                    type="text"
+                    value={suara.count}
+                    onChange={(e) => handleChange(idx, "count", e.target.value)}
+                    className="w-full px-3 py-2 rounded bg-[#232b3d] text-gray-100 border border-gray-700 focus:border-blue-600 outline-none transition"
+                  />
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {editList.map((suara, idx) => (
-                <tr key={suara._id}>
-                  <td className="px-4 py-2 bg-[#171c29]">
-                    <input
-                      type="text"
-                      value={suara.nama}
-                      onChange={(e) =>
-                        handleChange(idx, "nama", e.target.value)
-                      }
-                      className="w-full px-3 py-2 rounded bg-[#232b3d] text-gray-100 border border-gray-700 focus:border-blue-600 outline-none transition"
-                    />
-                  </td>
-                  <td className="px-4 py-2 bg-[#171c29]">
-                    <input
-                      type="text"
-                      value={suara.nomor}
-                      onChange={(e) =>
-                        handleChange(idx, "nomor", e.target.value)
-                      }
-                      className="w-full px-3 py-2 rounded bg-[#232b3d] text-gray-100 border border-gray-700 focus:border-blue-600 outline-none transition"
-                    />
-                  </td>
-                  <td className="px-4 py-2 bg-[#171c29]">
-                    <input
-                      type="text"
-                      value={suara.count}
-                      onChange={(e) =>
-                        handleChange(idx, "count", e.target.value)
-                      }
-                      className="w-full px-3 py-2 rounded bg-[#232b3d] text-gray-100 border border-gray-700 focus:border-blue-600 outline-none transition"
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="flex justify-end mt-8">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSaveAll}
-            disabled={saving}
-            style={{
-              background: "#1976d2",
-              color: "#fff",
-              fontWeight: 600,
-              letterSpacing: "1px",
-              borderRadius: "0.5rem",
-            }}
-          >
-            {saving ? "Saving..." : "SAVE ALL"}
-          </Button>
-        </div>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {/* Action buttons row */}
+      <div className="flex flex-col sm:flex-row justify-end gap-3 mt-8">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSaveAll}
+          disabled={saving}
+          style={{
+            background: "#1976d2",
+            color: "#fff",
+            fontWeight: 600,
+            letterSpacing: "1px",
+            borderRadius: "0.5rem",
+          }}
+        >
+          {saving ? "Saving..." : "SAVE ALL"}
+        </Button>
+        {/* Chart toggle button injected from parent */}
+        {chartToggleButton && chartToggleButton}
       </div>
       {/* Notification */}
       <Box
