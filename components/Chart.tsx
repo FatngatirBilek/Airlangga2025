@@ -363,7 +363,9 @@ export default function ChartView() {
         {/* Chart Section */}
         <div className="flex-1 flex flex-col items-center justify-center">
           <h1 className="text-2xl font-extrabold uppercase tracking-[0.13em] text-white drop-shadow mb-2 text-center">
-            DASHBOARD PERHITUNGAN SUARA AIRLANGGA 2025
+            DASHBOARD PERHITUNGAN SUARA
+            <br />
+            AIRLANGGA 2025
           </h1>
           <div style={{ position: "relative", height: "500px", width: "100%" }}>
             {isLoading && <div>Loading Chart Data...</div>}
