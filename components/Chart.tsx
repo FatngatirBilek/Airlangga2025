@@ -167,7 +167,7 @@ export default function ChartView() {
     // eslint-disable-next-line
   }, [JSON.stringify(chartData), isLoading, error]);
 
-  const paslonImageHeight = 150;
+  const paslonImageHeight = 120;
   const paslonImageRadius = 18;
 
   return (
@@ -218,7 +218,7 @@ export default function ChartView() {
               <div
                 style={{
                   position: "relative",
-                  width: "79%",
+                  width: "75%",
                   height: `${paslonImageHeight}px`,
                   borderRadius: `${paslonImageRadius}px`,
                   overflow: "hidden",
@@ -303,7 +303,7 @@ export default function ChartView() {
                 overflow: "hidden",
                 background: "#fff",
                 boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
-                marginTop: "12px",
+                marginTop: "5px",
               }}
             >
               {/* Pills FULL WIDTH at the top */}
