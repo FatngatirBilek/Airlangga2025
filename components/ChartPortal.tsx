@@ -20,12 +20,7 @@ interface SuaraData {
   count: string;
 }
 
-const chartColors = [
-  "#FFD600", // yellow
-  "#FFA726", // orange
-  "#FF5722", // deep orange
-  "#F9E8BE", // golput color
-];
+const chartColors = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -167,7 +162,7 @@ export default function ChartPortal() {
           className="text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
           style={{ textShadow: "0 2px 8px #222" }}
         >
-          DASHBOARD PERHITUNGAN SUARA
+          DASHBOARD PERHITUNGAN SUARf76102A
           <br />
           AIRLANGGA 2025
         </h1>

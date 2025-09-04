@@ -39,12 +39,9 @@ interface SuaraData {
   count: number;
 }
 
-const chartColors = [
-  "#FFD600", // yellow
-  "#FFA726", // orange
-  "#FF5722", // deep orange
-];
-const chartBorders = ["#FFD600", "#FFA726", "#FF5722"];
+const chartColors = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
+
+const chartBorders = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
 
 const paslonImages = [
   "/images/paslon1.jpeg",
