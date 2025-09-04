@@ -39,10 +39,8 @@ interface SuaraData {
   count: number;
 }
 
-const chartColors = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
-
-const chartBorders = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
-
+const chartColors = ["#F76102", "#F7A43A", "#FFDC04", "#FFD06C"];
+const chartBorders = ["#F76102", "#F7A43A", "#FFDC04", "#FFD06C"];
 const paslonImages = [
   "/images/paslon1.jpeg",
   "/images/paslon2.jpeg",
@@ -117,7 +115,7 @@ export default function ChartView() {
     refreshInterval: 5000,
   });
 
-  // Separate candidates and golput
+  // Candidate and golput separation
   const paslonData =
     apiData?.filter(
       (c) => c.nomor !== null && c.nama.toLowerCase() !== "golput",
@@ -138,7 +136,7 @@ export default function ChartView() {
           : [],
         borderWidth: 2,
         borderRadius: 7,
-        barPercentage: 1,
+        barPercentage: 1.3,
         categoryPercentage: 0.62,
       },
     ],
@@ -167,8 +165,16 @@ export default function ChartView() {
     // eslint-disable-next-line
   }, [JSON.stringify(chartData), isLoading, error]);
 
-  const paslonImageHeight = 120;
-  const paslonImageRadius = 18;
+  // Card and pill sizing (even more compact)
+  const cardWidth = 250;
+  const cardImageHeight = 180;
+  const cardRadius = 18;
+  const pillWidth = "58%";
+  const pillPadding = "2px 0px";
+  const pillFontSize1 = "0.78rem";
+  const pillFontSize2 = "0.76rem";
+  const suaraFontSize = "0.73rem";
+  const pillRadius = 9;
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">
@@ -204,162 +210,164 @@ export default function ChartView() {
         className="flex flex-row bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-6 z-10"
         style={{
           width: "calc(100vw - 180px)",
-          maxWidth: "1080px",
-          height: "calc(80vh - 120px)",
+          maxWidth: "1095px",
+          height: "calc(95vh - 120px)",
           minHeight: "550px",
           alignItems: "center",
         }}
       >
         {/* Candidate List */}
-        <div className="flex flex-col justify-center gap-6 w-72 pr-8">
+        <div className="flex flex-col justify-center gap-6 w-80 pr-8">
           {/* PASLON cards only */}
           {paslonData.map((c, idx) => (
-            <div key={c._id} className="flex flex-col items-stretch">
+            <div key={c._id} className="flex flex-col items-center">
               <div
                 style={{
                   position: "relative",
-                  width: "75%",
-                  height: `${paslonImageHeight}px`,
-                  borderRadius: `${paslonImageRadius}px`,
+                  width: `${cardWidth}px`,
+                  height: `${cardImageHeight}px`,
+                  borderRadius: `${cardRadius}px`,
                   overflow: "hidden",
                   background: "#fff",
                   boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
-                  marginBottom: "12px",
+                  marginBottom: "14px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
                 }}
               >
                 <Image
-                  src={paslonImages[idx] || "/images/paslon1.png"}
+                  src={
+                    paslonImages[idx % paslonImages.length] ||
+                    "/images/paslon1.png"
+                  }
                   alt={`Paslon ${c.nomor}`}
-                  fill
+                  width={cardWidth}
+                  height={cardImageHeight}
                   className="object-cover"
                   priority
                   style={{
-                    borderRadius: `${paslonImageRadius}px`,
+                    borderRadius: `${cardRadius}px`,
                     objectFit: "cover",
+                    width: `${cardWidth}px`,
+                    height: `${cardImageHeight}px`,
                   }}
                 />
-                {/* Pills FULL WIDTH at the bottom of the image, but SMALLER */}
+                {/* Pills PART OF IMAGE, at bottom (smaller) */}
                 <div
                   style={{
                     position: "absolute",
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
+                    left: "50%",
+                    bottom: "8px",
+                    transform: "translateX(-50%)",
+                    width: pillWidth,
+                    zIndex: 3,
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "stretch",
-                    zIndex: 2,
-                    paddingBottom: "0px",
+                    alignItems: "center",
+                    gap: "4px",
                   }}
                 >
-                  <span
+                  <div
                     style={{
                       background: "#FF7000",
                       color: "#fff",
-                      padding: "4px 0",
-                      fontWeight: 700,
-                      fontSize: "0.81rem",
+                      borderRadius: pillRadius,
+                      padding: pillPadding,
                       width: "100%",
+                      fontWeight: 700,
+                      fontSize: pillFontSize1,
                       textAlign: "center",
-                      borderRadius: "0px",
-                      borderTopLeftRadius: "0px",
-                      borderTopRightRadius: "0px",
-                      letterSpacing: "0.02em",
+                      letterSpacing: "0.01em",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                     }}
                   >
                     PASLON {c.nomor}
-                  </span>
-                  <span
+                  </div>
+                  <div
                     style={{
                       background: chartColors[idx % chartColors.length],
                       color: "#fff",
-                      padding: "4px 0",
-                      fontWeight: 700,
-                      fontSize: "0.81rem",
+                      borderRadius: pillRadius,
+                      padding: pillPadding,
                       width: "100%",
+                      fontWeight: 700,
+                      fontSize: pillFontSize2,
                       textAlign: "center",
-                      borderBottomLeftRadius: `${paslonImageRadius}px`,
-                      borderBottomRightRadius: `${paslonImageRadius}px`,
-                      borderTopLeftRadius: "0px",
-                      borderTopRightRadius: "0px",
-                      marginTop: "1px",
-                      letterSpacing: "0.02em",
+                      letterSpacing: "0.01em",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
                     }}
                   >
                     {c.nama}
-                  </span>
+                    <span
+                      style={{
+                        fontWeight: 600,
+                        fontSize: suaraFontSize,
+                        marginTop: "1px",
+                        color: "#fff",
+                        letterSpacing: "0.01em",
+                        opacity: 0.96,
+                        display: "block",
+                      }}
+                    >
+                      {c.count} suara
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           ))}
 
-          {/* Golput card WITHOUT image */}
+          {/* Golput card WITHOUT image, chart yellow, compact */}
           {golputData && (
             <div
               key={golputData._id}
-              className="flex flex-col items-stretch"
+              className="flex flex-col items-center"
               style={{
-                borderRadius: `${paslonImageRadius}px`,
-                overflow: "hidden",
-                background: "#fff",
+                borderRadius: `${pillRadius}px`,
+                background: chartColors[3],
+                width: `${cardWidth}px`,
                 boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
-                marginTop: "5px",
+                marginTop: "-10px",
+                marginLeft: "18px",
+                padding: "10px 0 5px 0",
               }}
             >
-              {/* Pills FULL WIDTH at the top */}
-              <div
+              <span
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "stretch",
-                  zIndex: 2,
-                  paddingBottom: "0px",
+                  color: "#594013",
+                  fontWeight: 900,
+                  fontSize: "0.86rem",
+                  textAlign: "center",
+                  letterSpacing: "0.01em",
+                  marginBottom: "1px",
+                  display: "block",
                 }}
               >
-                <span
-                  style={{
-                    background: "#FFD600",
-                    color: "#594013",
-                    padding: "8px 0 3px 0",
-                    fontWeight: 900,
-                    fontSize: "1.01rem",
-                    width: "100%",
-                    textAlign: "center",
-                    borderRadius: "0px",
-                    borderTopLeftRadius: `${paslonImageRadius}px`,
-                    borderTopRightRadius: `${paslonImageRadius}px`,
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  Golput
-                </span>
-                <span
-                  style={{
-                    background: "#FFF9E0",
-                    color: "#594013",
-                    padding: "5px 0 8px 0",
-                    fontWeight: 600,
-                    fontSize: "0.95rem",
-                    width: "100%",
-                    textAlign: "center",
-                    borderBottomLeftRadius: `${paslonImageRadius}px`,
-                    borderBottomRightRadius: `${paslonImageRadius}px`,
-                    borderTopLeftRadius: "0px",
-                    borderTopRightRadius: "0px",
-                    marginTop: "1px",
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  {golputData.count} suara
-                </span>
-              </div>
+                Golput
+              </span>
+              <span
+                style={{
+                  color: "#594013",
+                  fontWeight: 600,
+                  fontSize: "0.74rem",
+                  textAlign: "center",
+                  marginTop: "1px",
+                  display: "block",
+                }}
+              >
+                {golputData.count} suara
+              </span>
             </div>
           )}
         </div>
 
         {/* Chart Section */}
         <div className="flex-1 flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-extrabold uppercase tracking-[0.13em] text-white drop-shadow mb-2 text-center">
+          <h1 className="text-2xl font-extrabold uppercase tracking-[0.13em] text-white drop-shadow mb-10 text-center">
             DASHBOARD PERHITUNGAN SUARA
             <br />
             AIRLANGGA 2025
