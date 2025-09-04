@@ -184,7 +184,7 @@ export default function ChartPortal() {
         </h1>
       </div>
 
-      <div className="absolute flex flex-col items-center justify-center z-10 left-[49%] top-[57%] -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute flex flex-col items-center justify-center z-10 left-[48%] top-[56%] -translate-x-1/2 -translate-y-1/2">
         <div
           style={{
             position: "relative",
