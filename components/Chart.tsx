@@ -270,7 +270,7 @@ export default function ChartView() {
                 >
                   <div
                     style={{
-                      background: "#FF7000",
+                      background: chartColors[idx % chartColors.length],
                       color: "#fff",
                       borderRadius: pillRadius,
                       padding: pillPadding,
