@@ -55,11 +55,15 @@ export default function ChartPortal() {
     refreshInterval: 5000,
   });
 
-  // Separate paslon and golput
+  // Only paslons (not golput)
   const paslonData = useMemo(
-    () => apiData?.filter((d) => d.nomor !== "") ?? [],
+    () =>
+      apiData?.filter(
+        (d) => d.nomor !== "" && d.nama.toLowerCase() !== "golput",
+      ) ?? [],
     [apiData],
   );
+  // Only golput
   const golputData = useMemo(
     () => apiData?.find((d) => d.nama.toLowerCase() === "golput"),
     [apiData],
@@ -122,12 +126,24 @@ export default function ChartPortal() {
     "/images/paslon1.jpeg",
     "/images/paslon2.jpeg",
     "/images/paslon3.jpeg",
+    "/images/paslon1.jpeg", // fallback
   ];
   const portalBg = "/images/portalbg.png";
 
-  // Card sizing for "a little big but not too big"
-  const cardWidth = 280;
-  const cardImageHeight = 120;
+  // Card and pill sizing
+  const cardWidth = 300;
+  const cardImageHeight = 230;
+  const pillWidth = "60%"; // smaller pill
+  const pillPadding = "2px 0px";
+  const pillFontSize1 = "0.92rem";
+  const pillFontSize2 = "0.87rem";
+  const pillRadius = 16;
+
+  // Chart colors for bars
+  const paslonNumberBarColors = ["#F76102", "#F7A43A", "#FFDC04", "#F76102"];
+  const paslonNameBarColors = ["#F76102", "#F7A43A", "#FFDC04", "#F76102"];
+  const suaraTextColors = ["#fff", "#fff", "#9f6c00", "#fff"];
+  const getBarColor = (idx: number, arr: string[]) => arr[idx % arr.length];
 
   return (
     <div
@@ -150,9 +166,9 @@ export default function ChartPortal() {
       <Image
         src="/images/logoportal.svg"
         alt="Logo"
-        className="absolute top-8 left-8 h-30 w-auto z-20"
-        width={70}
-        height={70}
+        className="absolute top-8 left-8 h-24 w-auto z-20"
+        width={50}
+        height={50}
         priority
       />
 
@@ -162,13 +178,12 @@ export default function ChartPortal() {
           className="text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
           style={{ textShadow: "0 2px 8px #222" }}
         >
-          DASHBOARD PERHITUNGAN SUARf76102A
+          DASHBOARD PERHITUNGAN SUARA
           <br />
           AIRLANGGA 2025
         </h1>
       </div>
 
-      {/* Chart Centered */}
       <div className="absolute flex flex-col items-center justify-center z-10 left-[49%] top-[57%] -translate-x-1/2 -translate-y-1/2">
         <div
           style={{
@@ -204,147 +219,202 @@ export default function ChartPortal() {
         </div>
       </div>
 
-      {/* Cards container */}
+      {/* Cards container with glass background */}
       <div
-        className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10"
+        className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10"
         style={{
-          width: cardWidth + 40,
-          minHeight: 640,
+          width: cardWidth + 14,
+          minHeight: 540,
           height: "auto",
         }}
       >
+        {/* Glass background behind all cards */}
         <div
-          className="relative w-full"
           style={{
-            borderRadius: 28,
-            background: "rgba(255,255,255,0.20)",
-            boxShadow: "0 12px 48px 0 rgba(0,0,0,0.20)",
+            position: "absolute",
+            left: 0,
+            top: 0,
+            width: "100%",
+            height: "100%",
+            borderRadius: 18,
+            background: "rgba(255,255,255,0.22)",
+            boxShadow: "0 6px 24px 0 rgba(0,0,0,0.22)",
             border: "2px solid rgba(255,255,255,0.34)",
-            backdropFilter: "blur(28px) saturate(180%)",
-            WebkitBackdropFilter: "blur(28px) saturate(180%)",
-            padding: "28px 0",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            backdropFilter: "blur(16px) saturate(180%)",
+            WebkitBackdropFilter: "blur(16px) saturate(180%)",
+            zIndex: 1,
+          }}
+        ></div>
+        <div
+          className="relative w-full flex flex-col items-center"
+          style={{
+            borderRadius: 18,
+            background: "transparent",
+            boxShadow: "none",
+            border: "none",
+            padding: "12px 0",
+            gap: "12px",
+            zIndex: 2,
           }}
         >
-          {apiData?.map((c, idx) =>
-            c.nama.toLowerCase() !== "golput" ? (
+          {paslonData.map((c, idx) => (
+            <div
+              key={c._id}
+              className="flex flex-col items-center w-full"
+              style={{
+                borderRadius: 12,
+                background: "transparent",
+                boxShadow: "none",
+                padding: 0,
+                width: cardWidth,
+                maxWidth: cardWidth,
+                overflow: "visible",
+                border: "none",
+                position: "relative",
+                marginBottom: 0,
+              }}
+            >
               <div
-                key={c._id}
-                className="flex flex-col items-center w-full"
                 style={{
-                  borderRadius: 24,
-                  background: "#82b892",
-                  marginBottom: 24,
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                  paddingBottom: 16,
-                  paddingTop: 16,
                   width: cardWidth,
-                  maxWidth: cardWidth,
+                  height: cardImageHeight,
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                  marginBottom: "0px",
+                  boxShadow: "0 2px 7px rgba(0,0,0,0.08)",
+                  background: "#eee",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
                 }}
               >
-                {/* Paslon image */}
-                <div
-                  className="w-full flex justify-center"
+                <Image
+                  src={paslonImages[idx % paslonImages.length]}
+                  alt={`Paslon ${c.nomor}`}
+                  width={cardWidth}
+                  height={cardImageHeight}
+                  className="object-cover object-top"
                   style={{
-                    marginBottom: "12px",
-                    borderTopLeftRadius: "24px",
-                    borderTopRightRadius: "24px",
-                    overflow: "hidden",
+                    objectFit: "cover",
+                    width: `${cardWidth}px`,
+                    height: `${cardImageHeight}px`,
+                    borderRadius: "12px",
+                    zIndex: 1,
+                  }}
+                  priority
+                />
+                {/* Pills at the very bottom edge, OUTSIDE the image */}
+                <div
+                  style={{
+                    position: "absolute",
+                    left: "50%",
+                    bottom: "10px", // move pills below image
+                    transform: "translateX(-50%)",
+                    width: pillWidth,
+                    zIndex: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "7px",
                   }}
                 >
-                  <Image
-                    src={paslonImages[idx] || paslonImages[0]}
-                    alt={`Paslon ${c.nomor}`}
-                    width={cardWidth - 16}
-                    height={cardImageHeight}
-                    className="object-cover object-top"
+                  {/* Number bar */}
+                  <div
                     style={{
-                      objectFit: "cover",
-                      width: `${cardWidth - 16}px`,
-                      height: `${cardImageHeight}px`,
-                      borderTopLeftRadius: "24px",
-                      borderTopRightRadius: "24px",
+                      background: getBarColor(idx, paslonNumberBarColors),
+                      borderRadius: pillRadius,
+                      padding: pillPadding,
+                      width: "100%",
+                      color: "#fff",
+                      fontWeight: 700,
+                      fontSize: pillFontSize1,
+                      textAlign: "center",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
                     }}
-                    priority
-                  />
-                </div>
-                {/* Paslon number bar */}
-                <div
-                  className="font-bold text-center"
-                  style={{
-                    background: "#FF7000",
-                    borderRadius: 16,
-                    padding: "8px 0",
-                    width: "80%",
-                    color: "#fff",
-                    fontWeight: 700,
-                    fontSize: "1.08rem",
-                    marginBottom: 10,
-                    textAlign: "center",
-                  }}
-                >
-                  {`Paslon ${c.nomor}`}
-                </div>
-                {/* Name */}
-                <div
-                  className="font-bold text-center"
-                  style={{
-                    background: chartColors[idx % chartColors.length],
-                    borderRadius: 16,
-                    padding: "8px 0",
-                    width: "80%",
-                    color: "#fff",
-                    fontWeight: 700,
-                    fontSize: "1.06rem",
-                    textAlign: "center",
-                  }}
-                >
-                  {c.nama}
+                  >
+                    {`Paslon ${c.nomor || "null"}`}
+                  </div>
+                  {/* Name & suara bar */}
+                  <div
+                    style={{
+                      background: getBarColor(idx, paslonNameBarColors),
+                      borderRadius: pillRadius,
+                      padding: pillPadding,
+                      width: "100%",
+                      color: "#fff",
+                      fontWeight: 700,
+                      fontSize: pillFontSize2,
+                      textAlign: "center",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    {c.nama}
+                    {c.count && (
+                      <span
+                        style={{
+                          fontWeight: 600,
+                          fontSize: "0.83rem",
+                          marginTop: "1px",
+                          textAlign: "center",
+                          color: getBarColor(idx, suaraTextColors),
+                          letterSpacing: "0.01em",
+                        }}
+                      >
+                        {`${c.count} suara`}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            ) : (
-              <div
-                key={c._id}
-                className="flex flex-col items-center w-full"
+            </div>
+          ))}
+          {/* Golput card (smaller pill at the end, no image) */}
+          {golputData && (
+            <div
+              key={golputData._id}
+              className="flex flex-col items-center w-full"
+              style={{
+                borderRadius: 12,
+                background: "#F9E8BE",
+                width: cardWidth,
+                maxWidth: cardWidth,
+                justifyContent: "center",
+                alignItems: "center",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.07)",
+                padding: "9px 0 9px 0",
+                marginTop: "40px",
+                zIndex: 2,
+              }}
+            >
+              <span
                 style={{
-                  borderRadius: 24,
-                  background: "#F9E8BE",
-                  marginBottom: 24,
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
-                  paddingBottom: 18,
-                  paddingTop: 18,
-                  width: cardWidth,
-                  maxWidth: cardWidth,
-                  justifyContent: "center",
+                  color: "#594013",
+                  fontWeight: 900,
+                  fontSize: "1.18rem",
+                  textAlign: "center",
+                  letterSpacing: "0.07em",
+                  fontFamily: "inherit",
+                  marginBottom: "2px",
                 }}
               >
-                <span
-                  style={{
-                    color: "#594013",
-                    fontWeight: 900,
-                    fontSize: "1.13rem",
-                    textAlign: "center",
-                    letterSpacing: "0.07em",
-                    fontFamily: "inherit",
-                  }}
-                >
-                  Golput
-                </span>
-                <span
-                  style={{
-                    color: "#594013",
-                    fontWeight: 600,
-                    fontSize: "1.02rem",
-                    textAlign: "center",
-                    marginTop: "8px",
-                  }}
-                >
-                  {c.count ? `${c.count} suara` : ""}
-                </span>
-              </div>
-            ),
+                GOLPUTT
+              </span>
+              <span
+                style={{
+                  color: "#594013",
+                  fontWeight: 700,
+                  fontSize: "0.93rem",
+                  textAlign: "center",
+                  marginTop: "1px",
+                }}
+              >
+                {golputData.count ? `${golputData.count} suara` : ""}
+              </span>
+            </div>
           )}
         </div>
       </div>
