@@ -386,7 +386,7 @@ export default function ChartPortal() {
                 alignItems: "center",
                 boxShadow: "0 2px 6px rgba(0,0,0,0.07)",
                 padding: "9px 0 9px 0",
-                marginTop: "40px",
+                marginTop: "15px",
                 zIndex: 2,
               }}
             >
