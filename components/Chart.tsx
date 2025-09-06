@@ -372,7 +372,7 @@ export default function ChartView() {
 
         {/* Chart Section */}
         <div className="flex-1 flex flex-col items-center justify-center">
-          <h1 className="dashboard-title text-2xl font-extrabold uppercase tracking-[0.13em] text-white drop-shadow mb-10 text-center">
+          <h1 className="dashboard-title text-3xl font-bold uppercase tracking-[0.13em] text-white drop-shadow mb-10 text-center">
             DASHBOARD PERHITUNGAN SUARA
             <br />
             AIRLANGGA 2025
