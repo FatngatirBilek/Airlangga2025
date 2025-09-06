@@ -10,7 +10,7 @@ import {
   DoughnutController,
   TooltipItem,
 } from "chart.js";
-
+import portalbg from "@/public/images/portalbg.webp";
 Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
 
 interface SuaraData {
@@ -21,6 +21,12 @@ interface SuaraData {
 }
 
 const chartColors = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
+const suaraTextColors = [
+  "text-white",
+  "text-white",
+  "text-[#9f6c00]",
+  "text-white",
+];
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -128,32 +134,13 @@ export default function ChartPortal() {
     "/images/paslon3.jpeg",
     "/images/paslon1.jpeg", // fallback
   ];
-  const portalBg = "/images/portalbg.png";
-
-  // Card and pill sizing
-  const cardWidth = 300;
-  const cardImageHeight = 230;
-  const pillWidth = "60%"; // smaller pill
-  const pillPadding = "2px 0px";
-  const pillFontSize1 = "0.92rem";
-  const pillFontSize2 = "0.87rem";
-  const pillRadius = 16;
-
-  // Chart colors for bars
-  const paslonNumberBarColors = ["#F76102", "#F7A43A", "#FFDC04", "#F76102"];
-  const paslonNameBarColors = ["#F76102", "#F7A43A", "#FFDC04", "#F76102"];
-  const suaraTextColors = ["#fff", "#fff", "#9f6c00", "#fff"];
-  const getBarColor = (idx: number, arr: string[]) => arr[idx % arr.length];
 
   return (
-    <div
-      className="relative min-h-screen w-full overflow-hidden"
-      style={{ minHeight: "100vh", width: "100vw" }}
-    >
+    <div className="relative min-h-screen w-full overflow-hidden">
       {/* Background image */}
       <div className="fixed inset-0 -z-10">
         <Image
-          src={portalBg}
+          src={portalbg}
           alt="background image"
           fill
           className="object-cover"
@@ -174,30 +161,16 @@ export default function ChartPortal() {
 
       {/* Title */}
       <div className="absolute top-20 left-0 w-full flex justify-center z-10">
-        <h1
-          className="text-4xl dashboard-title font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
-          style={{ textShadow: "0 2px 8px #222" }}
-        >
+        <h1 className="dashboard-title text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg">
           DASHBOARD PERHITUNGAN SUARA
           <br />
           AIRLANGGA 2025
         </h1>
       </div>
 
-      <div className="absolute flex flex-col items-center justify-center z-10 left-[48%] top-[56%] -translate-x-1/2 -translate-y-1/2">
-        <div
-          style={{
-            position: "relative",
-            height: "420px",
-            width: "420px",
-            borderRadius: "50%",
-            boxShadow: "0 0 50px 15px #4cff15, 0 0 0 14px #222 inset",
-            background: "rgba(48,255,70,0.18)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+      {/* Chart */}
+      <div className="absolute flex flex-col items-center justify-center z-10 left-1/2 top-[56%] -translate-x-1/2 -translate-y-1/2">
+        <div className="relative flex items-center justify-center h-[420px] w-[420px] rounded-full shadow-[0_0_50px_15px_#4cff15,0_0_0_14px_#222_inset] bg-[rgba(48,255,70,0.18)]">
           {isLoading && (
             <div className="text-white font-bold text-xl">
               Loading Chart Data...
@@ -214,157 +187,53 @@ export default function ChartPortal() {
               id="mySuaraPieChart"
               width={420}
               height={420}
-            ></canvas>
+            />
           )}
         </div>
       </div>
 
       {/* Cards container with glass background */}
-      <div
-        className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10"
-        style={{
-          width: cardWidth + 14,
-          minHeight: 540,
-          height: "auto",
-        }}
-      >
+      <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 w-[314px] min-h-[540px]">
         {/* Glass background behind all cards */}
-        <div
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            width: "100%",
-            height: "100%",
-            borderRadius: 18,
-            background: "rgba(255,255,255,0.22)",
-            boxShadow: "0 6px 24px 0 rgba(0,0,0,0.22)",
-            border: "2px solid rgba(255,255,255,0.34)",
-            backdropFilter: "blur(16px) saturate(180%)",
-            WebkitBackdropFilter: "blur(16px) saturate(180%)",
-            zIndex: 1,
-          }}
-        ></div>
-        <div
-          className="relative w-full flex flex-col items-center"
-          style={{
-            borderRadius: 18,
-            background: "transparent",
-            boxShadow: "none",
-            border: "none",
-            padding: "12px 0",
-            gap: "12px",
-            zIndex: 2,
-          }}
-        >
+        <div className="absolute left-0 top-0 w-full h-full rounded-[18px] bg-white/22 shadow-[0_6px_24px_0_rgba(0,0,0,0.22)] border-2 border-white/34 backdrop-blur-[16px] saturate-[180%] z-1" />
+        <div className="relative w-full flex flex-col items-center rounded-[18px] bg-transparent shadow-none border-none py-3 gap-3 z-2">
           {paslonData.map((c, idx) => (
             <div
               key={c._id}
-              className="flex flex-col items-center w-full"
-              style={{
-                borderRadius: 12,
-                background: "transparent",
-                boxShadow: "none",
-                padding: 0,
-                width: cardWidth,
-                maxWidth: cardWidth,
-                overflow: "visible",
-                border: "none",
-                position: "relative",
-                marginBottom: 0,
-              }}
+              className="flex flex-col items-center w-full rounded-[12px] bg-transparent shadow-none p-0"
+              style={{ width: 300, maxWidth: 300 }}
             >
-              <div
-                style={{
-                  width: cardWidth,
-                  height: cardImageHeight,
-                  borderRadius: "12px",
-                  overflow: "hidden",
-                  marginBottom: "0px",
-                  boxShadow: "0 2px 7px rgba(0,0,0,0.08)",
-                  background: "#eee",
-                  position: "relative",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
-                }}
-              >
+              <div className="relative flex flex-col justify-end w-[300px] h-[230px] rounded-[12px] overflow-hidden mb-0 shadow-[0_2px_7px_rgba(0,0,0,0.08)] bg-[#eee]">
                 <Image
                   src={paslonImages[idx % paslonImages.length]}
                   alt={`Paslon ${c.nomor}`}
-                  width={cardWidth}
-                  height={cardImageHeight}
-                  className="object-cover object-top"
-                  style={{
-                    objectFit: "cover",
-                    width: `${cardWidth}px`,
-                    height: `${cardImageHeight}px`,
-                    borderRadius: "12px",
-                    zIndex: 1,
-                  }}
+                  width={300}
+                  height={230}
+                  className="object-cover object-top rounded-[12px] z-1"
                   priority
                 />
                 {/* Pills at the very bottom edge, OUTSIDE the image */}
-                <div
-                  style={{
-                    position: "absolute",
-                    left: "50%",
-                    bottom: "10px", // move pills below image
-                    transform: "translateX(-50%)",
-                    width: pillWidth,
-                    zIndex: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "7px",
-                  }}
-                >
+                <div className="absolute left-1/2 bottom-[10px] -translate-x-1/2 w-[60%] z-2 flex flex-col items-center gap-[7px]">
                   {/* Number bar */}
                   <div
+                    className={`details-paslon w-full text-center font-bold rounded-[16px] py-[2px] shadow-[0_2px_6px_rgba(0,0,0,0.08)] text-[0.92rem] text-white`}
                     style={{
-                      background: getBarColor(idx, paslonNumberBarColors),
-                      borderRadius: pillRadius,
-                      padding: pillPadding,
-                      width: "100%",
-                      color: "#fff",
-                      fontWeight: 700,
-                      fontSize: pillFontSize1,
-                      textAlign: "center",
-                      boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+                      background: chartColors[idx % chartColors.length],
                     }}
                   >
                     {`Paslon ${c.nomor || "null"}`}
                   </div>
                   {/* Name & suara bar */}
                   <div
-                    className="details-paslon"
+                    className={`details-paslon w-full text-center font-bold flex flex-col items-center rounded-[16px] py-[2px] shadow-[0_2px_6px_rgba(0,0,0,0.08)] text-[0.87rem] text-white`}
                     style={{
-                      background: getBarColor(idx, paslonNameBarColors),
-                      borderRadius: pillRadius,
-                      padding: pillPadding,
-                      width: "100%",
-                      color: "#fff",
-                      fontWeight: 700,
-                      fontSize: pillFontSize2,
-                      textAlign: "center",
-                      boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
+                      background: chartColors[idx % chartColors.length],
                     }}
                   >
                     {c.nama}
                     {c.count && (
                       <span
-                        style={{
-                          fontWeight: 600,
-                          fontSize: "0.83rem",
-                          marginTop: "1px",
-                          textAlign: "center",
-                          color: getBarColor(idx, suaraTextColors),
-                          letterSpacing: "0.01em",
-                          fontFamily: '"Batangas Bold", Arial, sans-serif',
-                        }}
+                        className={`details-paslon font-semibold text-[0.83rem] mt-[1px] ${suaraTextColors[idx % suaraTextColors.length]}`}
                       >
                         {`${c.count} suara`}
                       </span>
@@ -377,44 +246,13 @@ export default function ChartPortal() {
           {/* Golput card (smaller pill at the end, no image) */}
           {golputData && (
             <div
-              key={golputData._id}
-              className="flex flex-col items-center w-full"
-              style={{
-                borderRadius: 12,
-                background: "#F9E8BE",
-                width: cardWidth,
-                maxWidth: cardWidth,
-                justifyContent: "center",
-                alignItems: "center",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.07)",
-                padding: "9px 0 9px 0",
-                marginTop: "15px",
-                zIndex: 2,
-              }}
+              className="flex flex-col  rounded-[12px] justify-center items-center shadow-[0_2px_6px_rgba(0,0,0,0.07)] py-[9px] mt-[15px] z-2 w-[300px] max-w-[300px]"
+              style={{ background: chartColors[3] }}
             >
-              <span
-                className="details-paslon"
-                style={{
-                  color: "#594013",
-                  fontWeight: 5000,
-                  fontSize: "1.9rem",
-                  textAlign: "center",
-                  letterSpacing: "0.07em",
-                  marginBottom: "2px",
-                }}
-              >
+              <span className="details-paslon text-center font-extrabold mb-[2px] tracking-wide text-[#594013] text-[1.18rem]">
                 GOLPUT
               </span>
-              <span
-                className="details-paslon"
-                style={{
-                  color: "#594013",
-                  fontWeight: 700,
-                  fontSize: "0.93rem",
-                  textAlign: "center",
-                  marginTop: "1px",
-                }}
-              >
+              <span className="details-paslon text-center font-bold mt-[1px] text-[#594013] text-[0.93rem]">
                 {golputData.count ? `${golputData.count} suara` : ""}
               </span>
             </div>
