@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 import useSWR from "swr";
 import portalbg from "@/public/images/hasilbg.png";
+import gradient from "@/public/images/gradient.png";
 import paslon1menang from "@/public/images/paslonmenang/paslon1menang.png";
 import paslon2menang from "@/public/images/paslonmenang/paslon2menang.png";
 import paslon3menang from "@/public/images/paslonmenang/paslon3menang.png";
@@ -77,7 +78,7 @@ export default function PaslonWinner() {
         {/* SELAMAT & SUKSES */}
         <div className="w-full flex justify-center mb-2 mt-2">
           <span
-            className="details-paslon font-extrabold text-[4vw] md:text-[3vw] text-center tracking-wide"
+            className="details-paslon text-8xl font-extrabold text-center tracking-wide"
             style={{
               color: "#244f2b",
               letterSpacing: "0.09em",
@@ -132,9 +133,9 @@ export default function PaslonWinner() {
             className="relative flex items-end justify-center pb-7"
             style={{
               width: "30vw",
-              minWidth: "325px",
-              maxWidth: "430px",
-              height: "440px",
+              minWidth: "425px",
+              maxWidth: "530px",
+              height: "540px",
               flex: "2",
               display: "flex",
               alignItems: "flex-end",
@@ -149,7 +150,6 @@ export default function PaslonWinner() {
               priority
               style={{
                 borderRadius: "18px",
-                boxShadow: "0 8px 36px 0 rgba(31,38,135,0.16)",
               }}
             />
           </div>
