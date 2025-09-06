@@ -160,7 +160,7 @@ export default function ChartPortal() {
       />
 
       {/* Title */}
-      <div className="absolute top-20 left-0 w-full flex justify-center z-10">
+      <div className="absolute top-20 right-10 w-full flex justify-center z-10">
         <h1 className="dashboard-title text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg">
           DASHBOARD PERHITUNGAN SUARA
           <br />
@@ -169,8 +169,8 @@ export default function ChartPortal() {
       </div>
 
       {/* Chart */}
-      <div className="absolute flex flex-col items-center justify-center z-10 left-1/2 top-[56%] -translate-x-1/2 -translate-y-1/2">
-        <div className="relative flex items-center justify-center h-[420px] w-[420px] rounded-full shadow-[0_0_50px_15px_#4cff15,0_0_0_14px_#222_inset] bg-[rgba(48,255,70,0.18)]">
+      <div className="absolute flex flex-col items-center justify-center z-10 left-1/2 top-[56%] -translate-x-[58%] -translate-y-1/2">
+        <div className="relative flex items-center justify-center h-[460px] w-[460px] rounded-full shadow-[0_0_50px_15px_#4cff15,0_0_0_14px_#222_inset] bg-[rgba(48,255,70,0.18)]">
           {isLoading && (
             <div className="text-white font-bold text-xl">
               Loading Chart Data...
@@ -193,8 +193,8 @@ export default function ChartPortal() {
       </div>
 
       {/* Cards container with glass background */}
-      <div className="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 w-[314px] min-h-[540px]">
-        {/* Glass background behind all cards */}
+      {/* Glass background behind all cards */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 w-[314px] min-h-[540px]">
         <div className="absolute left-0 top-0 w-full h-full rounded-[18px] bg-white/22 shadow-[0_6px_24px_0_rgba(0,0,0,0.22)] border-2 border-white/34 backdrop-blur-[16px] saturate-[180%] z-1" />
         <div className="relative w-full flex flex-col items-center rounded-[18px] bg-transparent shadow-none border-none py-3 gap-3 z-2">
           {paslonData.map((c, idx) => (

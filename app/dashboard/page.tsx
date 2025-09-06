@@ -12,19 +12,15 @@ export default function DashboardPage() {
 
   const chartToggleButton = (
     <motion.button
-      layout
       whileTap={{ scale: 0.96 }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
       onClick={() => setEnabled(!enabled)}
       className={`px-5 py-2 rounded-lg font-semibold shadow transition-colors duration-300
         ${
           enabled
-            ? "bg-green-500 hover:bg-green-600"
-            : "bg-gray-600 hover:bg-gray-700"
+            ? "bg-green-500 hover:bg-green-600 focus:ring-green-300"
+            : "bg-gray-600 hover:bg-gray-700 focus:ring-gray-300"
         }
-        text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-300`}
+        text-white focus:outline-none focus:ring-2 focus:ring-offset-2`}
       style={{
         minWidth: "180px",
         letterSpacing: "1px",
@@ -47,7 +43,7 @@ export default function DashboardPage() {
           priority
         />
       </div>
-      {/* Logo: move outside the background container */}
+      {/* Logo */}
       <Image
         src="/images/logoportal.svg"
         alt="Logo"
