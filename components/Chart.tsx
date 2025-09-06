@@ -121,7 +121,7 @@ export default function ChartView() {
     refreshInterval: 5000,
   });
 
-  // Candidate and golput separation
+  // Candidate and golput separation (corrected: never compare number to string)
   const paslonData =
     apiData?.filter(
       (c) => c.nomor !== null && c.nama.toLowerCase() !== "golput",
@@ -171,15 +171,11 @@ export default function ChartView() {
     // eslint-disable-next-line
   }, [JSON.stringify(chartData), isLoading, error]);
 
-  // Card and pill sizing (even more compact)
+  // Card and pill sizing (keep your styling)
   const cardWidth = 250;
   const cardImageHeight = 180;
   const cardRadius = 18;
   const pillWidth = "58%";
-  // const pillPadding = "2px 0px";
-  // const pillFontSize1 = "0.78rem";
-  // const pillFontSize2 = "0.76rem";
-  // const suaraFontSize = "0.73rem";
   const pillRadius = 9;
 
   return (

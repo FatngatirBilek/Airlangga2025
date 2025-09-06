@@ -14,7 +14,7 @@ export default function DashboardPage() {
     <motion.button
       whileTap={{ scale: 0.96 }}
       onClick={() => setEnabled(!enabled)}
-      className={`px-5 py-2 rounded-lg font-semibold shadow transition-colors duration-300
+      className={`details-paslon px-5 py-2 rounded-lg font-semibold shadow transition-colors duration-300
         ${
           enabled
             ? "bg-green-500 hover:bg-green-600 focus:ring-green-300"

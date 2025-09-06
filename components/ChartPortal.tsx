@@ -28,6 +28,12 @@ const suaraTextColors = [
   "text-white",
 ];
 
+const paslonImages = [
+  "/images/paslon1.jpeg",
+  "/images/paslon2.jpeg",
+  "/images/paslon3.jpeg",
+];
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const options = {
@@ -61,7 +67,7 @@ export default function ChartPortal() {
     refreshInterval: 5000,
   });
 
-  // Only paslons (not golput)
+  // Candidate and golput separation (unified logic)
   const paslonData = useMemo(
     () =>
       apiData?.filter(
@@ -69,7 +75,7 @@ export default function ChartPortal() {
       ) ?? [],
     [apiData],
   );
-  // Only golput
+
   const golputData = useMemo(
     () => apiData?.find((d) => d.nama.toLowerCase() === "golput"),
     [apiData],
@@ -127,13 +133,12 @@ export default function ChartPortal() {
     };
   }, [paslonData, golputData, isLoading, error, chartData]);
 
-  // Images (for demo)
-  const paslonImages = [
-    "/images/paslon1.jpeg",
-    "/images/paslon2.jpeg",
-    "/images/paslon3.jpeg",
-    "/images/paslon1.jpeg", // fallback
-  ];
+  // Card and pill sizing (keep consistent with Chart.tsx)
+  const cardWidth = 250;
+  const cardImageHeight = 180;
+  const cardRadius = 18;
+  const pillWidth = "58%";
+  const pillRadius = 9;
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
@@ -160,8 +165,8 @@ export default function ChartPortal() {
       />
 
       {/* Title */}
-      <div className="absolute top-20 right-10 w-full flex justify-center z-10">
-        <h1 className="dashboard-title text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg">
+      <div className="absolute top-20 right-10 w-full text-5xl flex justify-center z-10">
+        <h1 className="dashboard-title text-white text-center">
           DASHBOARD PERHITUNGAN SUARA
           <br />
           AIRLANGGA 2025
@@ -193,67 +198,91 @@ export default function ChartPortal() {
       </div>
 
       {/* Cards container with glass background */}
-      {/* Glass background behind all cards */}
       <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 w-[314px] min-h-[540px]">
         <div className="absolute left-0 top-0 w-full h-full rounded-[18px] bg-white/22 shadow-[0_6px_24px_0_rgba(0,0,0,0.22)] border-2 border-white/34 backdrop-blur-[16px] saturate-[180%] z-1" />
         <div className="relative w-full flex flex-col items-center rounded-[18px] bg-transparent shadow-none border-none py-3 gap-3 z-2">
           {paslonData.map((c, idx) => (
             <div
               key={c._id}
-              className="flex flex-col items-center w-full rounded-[12px] bg-transparent shadow-none p-0"
-              style={{ width: 300, maxWidth: 300 }}
+              className="flex flex-col items-center"
+              style={{ width: cardWidth, maxWidth: cardWidth }}
             >
-              <div className="relative flex flex-col justify-end w-[300px] h-[230px] rounded-[12px] overflow-hidden mb-0 shadow-[0_2px_7px_rgba(0,0,0,0.08)] bg-[#eee]">
+              <div
+                className="relative flex flex-col justify-end"
+                style={{
+                  width: `${cardWidth}px`,
+                  height: `${cardImageHeight}px`,
+                  borderRadius: `${cardRadius}px`,
+                  overflow: "hidden",
+                  background: "#fff",
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
+                  marginBottom: "14px",
+                }}
+              >
                 <Image
                   src={paslonImages[idx % paslonImages.length]}
                   alt={`Paslon ${c.nomor}`}
-                  width={300}
-                  height={230}
-                  className="object-cover object-top rounded-[12px] z-1"
+                  width={cardWidth}
+                  height={cardImageHeight}
+                  className="object-cover"
                   priority
+                  style={{
+                    borderRadius: `${cardRadius}px`,
+                    objectFit: "cover",
+                    width: `${cardWidth}px`,
+                    height: `${cardImageHeight}px`,
+                  }}
                 />
-                {/* Pills at the very bottom edge, OUTSIDE the image */}
-                <div className="absolute left-1/2 bottom-[10px] -translate-x-1/2 w-[60%] z-2 flex flex-col items-center gap-[7px]">
-                  {/* Number bar */}
+                {/* Pills PART OF IMAGE, at bottom (smaller) */}
+                <div
+                  className="absolute left-1/2 bottom-2 -translate-x-1/2 flex flex-col items-center gap-1"
+                  style={{ width: pillWidth, zIndex: 3 }}
+                >
                   <div
-                    className={`details-paslon w-full text-center font-bold rounded-[16px] py-[2px] shadow-[0_2px_6px_rgba(0,0,0,0.08)] text-[0.92rem] text-white`}
+                    className={`details-paslon w-full text-center font-bold rounded-[9px] py-0.5 shadow text-white text-[0.78rem]`}
                     style={{
                       background: chartColors[idx % chartColors.length],
                     }}
                   >
-                    {`Paslon ${c.nomor || "null"}`}
+                    PASLON {c.nomor}
                   </div>
-                  {/* Name & suara bar */}
                   <div
-                    className={`details-paslon w-full text-center font-bold flex flex-col items-center rounded-[16px] py-[2px] shadow-[0_2px_6px_rgba(0,0,0,0.08)] text-[0.87rem] text-white`}
+                    className={`details-paslon w-full text-center font-bold flex flex-col items-center rounded-[9px] py-0.5 shadow text-white text-[0.76rem]`}
                     style={{
                       background: chartColors[idx % chartColors.length],
                     }}
                   >
                     {c.nama}
-                    {c.count && (
-                      <span
-                        className={`details-paslon font-semibold text-[0.83rem] mt-[1px] ${suaraTextColors[idx % suaraTextColors.length]}`}
-                      >
-                        {`${c.count} suara`}
-                      </span>
-                    )}
+                    <span
+                      className={`details-paslon font-semibold mt-0.5 ${suaraTextColors[idx % suaraTextColors.length]} text-[0.73rem]`}
+                    >
+                      {c.count} suara
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           ))}
-          {/* Golput card (smaller pill at the end, no image) */}
+          {/* Golput card WITHOUT image, chart yellow, compact */}
           {golputData && (
             <div
-              className="flex flex-col  rounded-[12px] justify-center items-center shadow-[0_2px_6px_rgba(0,0,0,0.07)] py-[9px] mt-[15px] z-2 w-[300px] max-w-[300px]"
-              style={{ background: chartColors[3] }}
+              key={golputData._id}
+              className="flex flex-col items-center"
+              style={{
+                borderRadius: `${pillRadius}px`,
+                background: chartColors[3],
+                width: `${cardWidth}px`,
+                boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
+                marginTop: "-10px",
+                marginLeft: "18px",
+                padding: "10px 0 5px 0",
+              }}
             >
-              <span className="details-paslon text-center font-extrabold mb-[2px] tracking-wide text-[#594013] text-[1.18rem]">
-                GOLPUT
+              <span className="details-paslon text-center font-extrabold tracking-wide text-[#594013] text-[1.4rem] mb-1">
+                Golput
               </span>
-              <span className="details-paslon text-center font-bold mt-[1px] text-[#594013] text-[0.93rem]">
-                {golputData.count ? `${golputData.count} suara` : ""}
+              <span className="details-paslon text-center font-semibold text-[#594013] text-[0.74rem] mt-1">
+                {golputData.count} suara
               </span>
             </div>
           )}

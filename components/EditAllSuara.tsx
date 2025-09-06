@@ -123,7 +123,7 @@ export default function EditAllSuara({
       }}
     >
       <h2
-        className="text-4xl font-bold text-center mb-10"
+        className="details-paslon text-4xl font-bold text-center mb-10"
         style={{
           color: "#244f2b",
           letterSpacing: "2px",
@@ -138,7 +138,7 @@ export default function EditAllSuara({
               <th
                 style={{
                   color: "#244f2b",
-                  fontSize: "20px",
+                  fontSize: "25px",
                   fontWeight: 700,
                   paddingBottom: "20px",
                   width: "36%",
@@ -149,7 +149,7 @@ export default function EditAllSuara({
               <th
                 style={{
                   color: "#244f2b",
-                  fontSize: "20px",
+                  fontSize: "25px",
                   fontWeight: 700,
                   paddingBottom: "20px",
                   width: "22%",
@@ -178,7 +178,7 @@ export default function EditAllSuara({
                     type="text"
                     value={suara.nama}
                     onChange={(e) => handleChange(idx, "nama", e.target.value)}
-                    className="font-bold text-center"
+                    className="font-bold details-paslon text-center"
                     style={{
                       width: "98%",
                       background: "rgba(220,255,213,0.95)",
