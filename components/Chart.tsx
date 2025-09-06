@@ -2,7 +2,7 @@
 import useSWR from "swr";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import background from "@/public/images/bg.png";
+import background from "@/public/images/bg.webp";
 import {
   Chart,
   ArcElement,
@@ -41,6 +41,12 @@ interface SuaraData {
 
 const chartColors = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
 const chartBorders = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
+const suaraTextColors = [
+  "text-white",
+  "text-white",
+  "text-[#9f6c00]",
+  "text-white",
+];
 const paslonImages = [
   "/images/paslon1.jpeg",
   "/images/paslon2.jpeg",
@@ -170,10 +176,10 @@ export default function ChartView() {
   const cardImageHeight = 180;
   const cardRadius = 18;
   const pillWidth = "58%";
-  const pillPadding = "2px 0px";
-  const pillFontSize1 = "0.78rem";
-  const pillFontSize2 = "0.76rem";
-  const suaraFontSize = "0.73rem";
+  // const pillPadding = "2px 0px";
+  // const pillFontSize1 = "0.78rem";
+  // const pillFontSize2 = "0.76rem";
+  // const suaraFontSize = "0.73rem";
   const pillRadius = 9;
 
   return (
@@ -222,8 +228,8 @@ export default function ChartView() {
           {paslonData.map((c, idx) => (
             <div key={c._id} className="flex flex-col items-center">
               <div
+                className="relative flex flex-col justify-end"
                 style={{
-                  position: "relative",
                   width: `${cardWidth}px`,
                   height: `${cardImageHeight}px`,
                   borderRadius: `${cardRadius}px`,
@@ -231,9 +237,6 @@ export default function ChartView() {
                   background: "#fff",
                   boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
                   marginBottom: "14px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
                 }}
               >
                 <Image
@@ -255,66 +258,26 @@ export default function ChartView() {
                 />
                 {/* Pills PART OF IMAGE, at bottom (smaller) */}
                 <div
-                  style={{
-                    position: "absolute",
-                    left: "50%",
-                    bottom: "8px",
-                    transform: "translateX(-50%)",
-                    width: pillWidth,
-                    zIndex: 3,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "4px",
-                  }}
+                  className="absolute left-1/2 bottom-2 -translate-x-1/2 flex flex-col items-center gap-1"
+                  style={{ width: pillWidth, zIndex: 3 }}
                 >
                   <div
-                    className="details-paslon"
+                    className={`details-paslon w-full text-center font-bold rounded-[9px] py-0.5 shadow text-white text-[0.78rem]`}
                     style={{
                       background: chartColors[idx % chartColors.length],
-                      color: "#fff",
-                      borderRadius: pillRadius,
-                      padding: pillPadding,
-                      width: "100%",
-                      fontWeight: 700,
-                      fontSize: pillFontSize1,
-                      textAlign: "center",
-                      letterSpacing: "0.01em",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                     }}
                   >
                     PASLON {c.nomor}
                   </div>
                   <div
-                    className="details-paslon"
+                    className={`details-paslon w-full text-center font-bold flex flex-col items-center rounded-[9px] py-0.5 shadow text-white text-[0.76rem]`}
                     style={{
                       background: chartColors[idx % chartColors.length],
-                      color: "#fff",
-                      borderRadius: pillRadius,
-                      padding: pillPadding,
-                      width: "100%",
-                      fontWeight: 700,
-                      fontSize: pillFontSize2,
-                      textAlign: "center",
-                      letterSpacing: "0.01em",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
                     }}
                   >
                     {c.nama}
                     <span
-                      className="details-paslon"
-                      style={{
-                        fontWeight: 600,
-                        fontSize: suaraFontSize,
-                        marginTop: "1px",
-                        color: "#fff",
-                        letterSpacing: "0.01em",
-                        opacity: 0.96,
-                        display: "block",
-                      }}
+                      className={`details-paslon font-semibold mt-0.5 ${suaraTextColors[idx % suaraTextColors.length]} text-[0.73rem]`}
                     >
                       {c.count} suara
                     </span>
@@ -339,31 +302,10 @@ export default function ChartView() {
                 padding: "10px 0 5px 0",
               }}
             >
-              <span
-                className="details-paslon"
-                style={{
-                  color: "#594013",
-                  fontWeight: 1000,
-                  fontSize: "1.4rem",
-                  textAlign: "center",
-                  letterSpacing: "0.01em",
-                  marginBottom: "1px",
-                  display: "block",
-                }}
-              >
+              <span className="details-paslon text-center font-extrabold tracking-wide text-[#594013] text-[1.4rem] mb-1">
                 Golput
               </span>
-              <span
-                className="details-paslon"
-                style={{
-                  color: "#594013",
-                  fontWeight: 600,
-                  fontSize: "0.74rem",
-                  textAlign: "center",
-                  marginTop: "1px",
-                  display: "block",
-                }}
-              >
+              <span className="details-paslon text-center font-semibold text-[#594013] text-[0.74rem] mt-1">
                 {golputData.count} suara
               </span>
             </div>

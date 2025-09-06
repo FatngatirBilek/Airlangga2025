@@ -3,7 +3,7 @@ import { useDashboardEnabled } from "@/app/context/useDashboardEnabled";
 import EditAllSuara from "@/components/EditAllSuara";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import background from "@/public/images/dashboardbg.png";
+import background from "@/public/images/dashboardbg.webp";
 
 export default function DashboardPage() {
   const { enabled, setEnabled, loading } = useDashboardEnabled();
@@ -47,6 +47,15 @@ export default function DashboardPage() {
           priority
         />
       </div>
+      {/* Logo: move outside the background container */}
+      <Image
+        src="/images/logoportal.svg"
+        alt="Logo"
+        className="absolute top-8 left-8 h-24 w-auto z-20"
+        width={50}
+        height={50}
+        priority
+      />
       {/* Card/Table */}
       <div className="w-full flex justify-center">
         <EditAllSuara chartToggleButton={chartToggleButton} />
