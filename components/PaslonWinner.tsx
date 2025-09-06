@@ -2,16 +2,10 @@
 import Image from "next/image";
 import React from "react";
 import useSWR from "swr";
-import portalbg from "@/public/images/dashboardbg.webp";
+import portalbg from "@/public/images/hasilbg.png";
 import paslon1menang from "@/public/images/paslonmenang/paslon1menang.png";
 import paslon2menang from "@/public/images/paslonmenang/paslon2menang.png";
 import paslon3menang from "@/public/images/paslonmenang/paslon3menang.png";
-
-interface Suara {
-  nama: string;
-  nomor: string;
-  count: string;
-}
 
 const paslonImageMap: Record<string, string> = {
   "1": paslon1menang.src,
@@ -19,15 +13,19 @@ const paslonImageMap: Record<string, string> = {
   "3": paslon3menang.src,
 };
 
+interface Suara {
+  nama: string;
+  nomor: string;
+  count: string;
+}
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function PaslonWinner() {
   const { data: suaraList, isLoading } = useSWR<Suara[]>(
     "/api/suara",
     fetcher,
-    {
-      refreshInterval: 5000,
-    },
+    { refreshInterval: 5000 },
   );
 
   if (isLoading || !suaraList) {
@@ -38,7 +36,6 @@ export default function PaslonWinner() {
     );
   }
 
-  // Find the winner (highest vote count)
   const winner = suaraList.reduce((max, curr) =>
     Number(curr.count) > Number(max.count) ? curr : max,
   );
@@ -56,97 +53,129 @@ export default function PaslonWinner() {
           priority
         />
       </div>
-      {/* Glassy card at the bottom */}
+      {/* Logo */}
+      <Image
+        src="/images/logoportal.svg"
+        alt="Logo"
+        className="absolute top-8 left-8 h-24 w-auto z-20"
+        width={50}
+        height={50}
+        priority
+      />
+
+      {/* Main congratulation layout */}
       <div
-        className="absolute left-1/2 bottom-0 -translate-x-1/2 z-10 flex flex-col items-center justify-center"
+        className="absolute left-1/2 top-[21%] -translate-x-1/2 z-10 flex flex-col"
         style={{
-          width: "80vw",
-          maxWidth: "1300px",
-          height: "70vh",
-          minHeight: "350px",
-          borderRadius: "40px",
-          background: "rgba(199,228,86,0.37)",
-          boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.13)",
-          backdropFilter: "blur(14px)",
-          WebkitBackdropFilter: "blur(14px)",
-          border: "2.5px solid rgba(255,255,255,0.18)",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
+          width: "92vw",
+          maxWidth: "1240px",
+          minHeight: "610px",
+          height: "610px",
+          padding: "0 0 0 0",
         }}
       >
         {/* SELAMAT & SUKSES */}
-        <div className="w-full flex justify-center mt-12 mb-4">
+        <div className="w-full flex justify-center mb-2 mt-2">
           <span
-            className="font-extrabold details-paslon text-[3.5vw] md:text-[2.5vw] text-center tracking-wide"
+            className="details-paslon font-extrabold text-[4vw] md:text-[3vw] text-center tracking-wide"
             style={{
-              color: "#15443C",
-              letterSpacing: "0.06em",
-              textShadow: "0 2px 12px rgba(0,0,0,0.09)",
+              color: "#244f2b",
+              letterSpacing: "0.09em",
+              textShadow: "0 2px 16px rgba(0,0,0,0.09)",
+              lineHeight: 1,
             }}
           >
-            SELAMAT&nbsp;&amp;&nbsp;SUKSES
+            SELAMAT &amp; SUKSES
           </span>
         </div>
-
-        {/* Winner image - bigger and centered */}
         <div
-          className="relative mx-auto mb-6 flex items-center justify-center"
-          style={{
-            width: "36vw",
-            height: "44vw",
-            minWidth: "340px",
-            minHeight: "420px",
-            maxWidth: "520px",
-            maxHeight: "630px",
-          }}
+          className="w-full flex flex-row items-end justify-between pt-6"
+          style={{ height: "100%" }}
         >
-          <Image
-            src={paslonImageMap[winner.nomor]}
-            alt="Paslon Winner"
-            fill
-            className="object-contain"
-            priority
+          {/* Left - PASLON Info */}
+          <div
+            className="flex flex-col items-start justify-end pb-12 pl-10"
+            style={{ flex: "2", minWidth: 320 }}
+          >
+            <span
+              className="details-paslon font-bold text-[1.15vw] md:text-xl mb-1"
+              style={{ color: "#244f2b", marginBottom: 6 }}
+            >
+              {`PASLON ${winner.nomor}`}
+            </span>
+            <span
+              className="details-paslon font-extrabold text-[2.4vw] md:text-[2vw] uppercase mb-2"
+              style={{
+                color: "#244f2b",
+                letterSpacing: "2px",
+                marginBottom: 8,
+                lineHeight: 1.1,
+              }}
+            >
+              {winner.nama}
+            </span>
+            <span
+              className="details-paslon font-bold text-[1.2vw] md:text-lg mb-1"
+              style={{ color: "#244f2b", marginBottom: 6 }}
+            >
+              SEBAGAI MITRATAMA DAN MITRAMUDA
+            </span>
+            <span
+              className="details-paslon font-bold text-[1vw] md:text-lg"
+              style={{ color: "#244f2b" }}
+            >
+              2025/2026
+            </span>
+          </div>
+          {/* Center - PASLON Image */}
+          <div
+            className="relative flex items-end justify-center pb-7"
             style={{
-              borderRadius: "18px",
-              boxShadow: "0 6px 36px 0 rgba(31,38,135,0.20)",
+              width: "30vw",
+              minWidth: "325px",
+              maxWidth: "430px",
+              height: "440px",
+              flex: "2",
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "center",
             }}
-          />
-        </div>
-
-        {/* Winner info */}
-        <div className="w-full flex flex-col items-center mb-2">
-          <span
-            className="font-extrabold details-paslon text-[1.6rem] md:text-3xl text-center uppercase tracking-widest"
-            style={{ color: "#15443C" }}
           >
-            {`PASLON ${winner.nomor}`}
-          </span>
-          <span
-            className="font-extrabold details-paslon text-[1.6rem] md:text-3xl text-center uppercase tracking-widest"
-            style={{ color: "#15443C", marginTop: "0.25em" }}
+            <Image
+              src={paslonImageMap[winner.nomor]}
+              alt="Paslon Winner"
+              fill
+              className="object-contain"
+              priority
+              style={{
+                borderRadius: "18px",
+                boxShadow: "0 8px 36px 0 rgba(31,38,135,0.16)",
+              }}
+            />
+          </div>
+          {/* Right - congratulation message */}
+          <div
+            className="flex flex-col items-end justify-end pb-14 pr-10"
+            style={{ flex: "2", minWidth: 320 }}
           >
-            {winner.nama}
-          </span>
-          <span
-            className="font-bold details-paslon text-lg md:text-xl mt-2 text-center"
-            style={{ color: "#15443C" }}
-          >
-            {winner.count} SUARA
-          </span>
-          <span
-            className="font-semibold text-lg md:text-xl mt-4 text-center"
-            style={{ color: "#15443C", maxWidth: "85%", lineHeight: "1.5" }}
-          >
-            SEBAGAI MITRATAMA DAN MITRAMUDA 2025/2026
-          </span>
-          <span
-            className="font-medium text-base md:text-lg mt-4 text-center"
-            style={{ color: "#15443C", maxWidth: "80%", lineHeight: "1.4" }}
-          >
-            Semoga amanah ini dapat diemban dengan baik dan membawa kemajuan
-            bagi OSIS serta sekolah kita.
-          </span>
+            <div
+              className="details-paslon font-semibold text-lg md:text-xl text-right"
+              style={{
+                color: "#244f2b",
+                background: "rgba(255,255,255,0.30)",
+                borderRadius: "14px",
+                padding: "16px 24px",
+                borderLeft: "4px solid #244f2b",
+                boxShadow: "0 2px 20px rgba(36,79,43,0.08)",
+                maxWidth: "330px",
+                lineHeight: "1.4",
+              }}
+            >
+              Semoga amanah ini dapat diemban dengan baik
+              <br />
+              dan membawa kemajuan bagi OSIS serta sekolah kita.
+            </div>
+          </div>
         </div>
       </div>
     </div>
