@@ -3,7 +3,6 @@ import Image from "next/image";
 import React from "react";
 import useSWR from "swr";
 import portalbg from "@/public/images/hasilbg.png";
-import gradient from "@/public/images/gradient.png";
 import paslon1menang from "@/public/images/paslonmenang/paslon1menang.png";
 import paslon2menang from "@/public/images/paslonmenang/paslon2menang.png";
 import paslon3menang from "@/public/images/paslonmenang/paslon3menang.png";
@@ -132,10 +131,10 @@ export default function PaslonWinner() {
           <div
             className="relative flex items-end justify-center pb-7"
             style={{
-              width: "30vw",
-              minWidth: "425px",
-              maxWidth: "530px",
-              height: "540px",
+              width: "35vw",
+              minWidth: "625px",
+              maxWidth: "630px",
+              height: "640px",
               flex: "2",
               display: "flex",
               alignItems: "flex-end",
