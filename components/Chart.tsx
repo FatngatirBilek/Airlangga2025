@@ -39,8 +39,8 @@ interface SuaraData {
   count: number;
 }
 
-const chartColors = ["#F76102", "#F7A43A", "#FFDC04", "#FFD06C"];
-const chartBorders = ["#F76102", "#F7A43A", "#FFDC04", "#FFD06C"];
+const chartColors = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
+const chartBorders = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
 const paslonImages = [
   "/images/paslon1.jpeg",
   "/images/paslon2.jpeg",
