@@ -269,6 +269,7 @@ export default function ChartView() {
                   }}
                 >
                   <div
+                    className="details-paslon"
                     style={{
                       background: chartColors[idx % chartColors.length],
                       color: "#fff",
@@ -285,6 +286,7 @@ export default function ChartView() {
                     PASLON {c.nomor}
                   </div>
                   <div
+                    className="details-paslon"
                     style={{
                       background: chartColors[idx % chartColors.length],
                       color: "#fff",
@@ -303,6 +305,7 @@ export default function ChartView() {
                   >
                     {c.nama}
                     <span
+                      className="details-paslon"
                       style={{
                         fontWeight: 600,
                         fontSize: suaraFontSize,
@@ -337,10 +340,11 @@ export default function ChartView() {
               }}
             >
               <span
+                className="details-paslon"
                 style={{
                   color: "#594013",
-                  fontWeight: 900,
-                  fontSize: "0.86rem",
+                  fontWeight: 1000,
+                  fontSize: "1.4rem",
                   textAlign: "center",
                   letterSpacing: "0.01em",
                   marginBottom: "1px",
@@ -350,6 +354,7 @@ export default function ChartView() {
                 Golput
               </span>
               <span
+                className="details-paslon"
                 style={{
                   color: "#594013",
                   fontWeight: 600,
@@ -367,7 +372,7 @@ export default function ChartView() {
 
         {/* Chart Section */}
         <div className="flex-1 flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-extrabold uppercase tracking-[0.13em] text-white drop-shadow mb-10 text-center">
+          <h1 className="dashboard-title text-2xl font-extrabold uppercase tracking-[0.13em] text-white drop-shadow mb-10 text-center">
             DASHBOARD PERHITUNGAN SUARA
             <br />
             AIRLANGGA 2025
