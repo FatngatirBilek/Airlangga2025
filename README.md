@@ -10,21 +10,21 @@
 
 🖼️ **Galeri Proyek**
 
-<p align="center"><img src="https://private-user-images.githubusercontent.com/81058978/469045385-7ef1e3db-d2df-4985-b8d9-78b9f0c13517.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTMxNjk2NjIsIm5iZiI6MTc1MzE2OTM2MiwicGF0aCI6Ii84MTA1ODk3OC80NjkwNDUzODUtN2VmMWUzZGItZDJkZi00OTg1LWI4ZDktNzhiOWYwYzEzNTE3LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MjIlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzIyVDA3MjkyMlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTRiYWYxZWY3ZmMyM2IwZTVjMzFkZDNmNzcyYzU0NzUxOGFlYjc4ZDYxMGQ0YmZhZjg5ZWU5OTY1NjE4ZWMwYzQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.AYdCtsmJ4-R6KpRi1sQFwu02adkBjJz9-_fc1JDggoI" alt="Pratinjau Proyek" width="80%"></p>
+<p align="center"><img src="https://www.fatngatirbilek.eu.org/_next/image?url=%2Fimages%2FProjects%2FAirlangga2025.webp&w=1920&q=75" alt="Pratinjau Proyek" width="80%"></p>
 
 **Fitur Utama ✨**
 
-*   **API Suara 📢**: Endpoint API untuk mengelola data suara.
-*   **Dasbor Interaktif 📊**: Tampilan dasbor untuk visualisasi dan analisis data.
-*   **Autentikasi Pengguna 🔑**: Sistem sign-in untuk keamanan dan personalisasi.
-*   **Optimasi Performa ⚡**: Dibangun dengan Next.js untuk performa tinggi dan SEO yang baik.
+- **API Suara 📢**: Endpoint API untuk mengelola data suara.
+- **Dasbor Interaktif 📊**: Tampilan dasbor untuk visualisasi dan analisis data.
+- **Autentikasi Pengguna 🔑**: Sistem sign-in untuk keamanan dan personalisasi.
+- **Optimasi Performa ⚡**: Dibangun dengan Next.js untuk performa tinggi dan SEO yang baik.
 
 **Tech Stack 🛠️**
 
-*   **Bahasa Pemrograman**: TypeScript
-*   **Framework**: Next.js
-*   **Database**: MongoDB
-*   **Runtime**: Node.js / Bun
+- **Bahasa Pemrograman**: TypeScript
+- **Framework**: Next.js
+- **Database**: MongoDB
+- **Runtime**: Node.js / Bun
 
 **Instalasi & Menjalankan 🚀**
 
@@ -54,8 +54,8 @@
 5.  Buat Pull Request ke repositori utama.
 
 **Lisensi 📄**
- [LICENSE](LICENSE): MIT License
-
+[LICENSE](LICENSE): MIT License
 
 ---
+
 Made with ❤️ by Fathir
