@@ -16,7 +16,7 @@ Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
 interface SuaraData {
   _id: string;
   nama: string;
-  nomor: string; // "" for Golput
+  nomor: string;
   count: string;
 }
 
@@ -175,7 +175,7 @@ export default function ChartPortal() {
       {/* Title */}
       <div className="absolute top-20 left-0 w-full flex justify-center z-10">
         <h1
-          className="text-4xl font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
+          className="text-4xl dashboard-title font-extrabold uppercase tracking-wide text-white text-center drop-shadow-lg"
           style={{ textShadow: "0 2px 8px #222" }}
         >
           DASHBOARD PERHITUNGAN SUARA
@@ -337,6 +337,7 @@ export default function ChartPortal() {
                   </div>
                   {/* Name & suara bar */}
                   <div
+                    className="details-paslon"
                     style={{
                       background: getBarColor(idx, paslonNameBarColors),
                       borderRadius: pillRadius,
@@ -362,6 +363,7 @@ export default function ChartPortal() {
                           textAlign: "center",
                           color: getBarColor(idx, suaraTextColors),
                           letterSpacing: "0.01em",
+                          fontFamily: '"Batangas Bold", Arial, sans-serif',
                         }}
                       >
                         {`${c.count} suara`}
@@ -391,19 +393,20 @@ export default function ChartPortal() {
               }}
             >
               <span
+                className="details-paslon"
                 style={{
                   color: "#594013",
-                  fontWeight: 900,
-                  fontSize: "1.18rem",
+                  fontWeight: 5000,
+                  fontSize: "1.9rem",
                   textAlign: "center",
                   letterSpacing: "0.07em",
-                  fontFamily: "inherit",
                   marginBottom: "2px",
                 }}
               >
-                GOLPUTT
+                GOLPUT
               </span>
               <span
+                className="details-paslon"
                 style={{
                   color: "#594013",
                   fontWeight: 700,

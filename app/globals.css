@@ -112,11 +112,32 @@
     --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* FIXED: font-face typo "fotmat" => "format" */
+@font-face {
+    font-family: "Sunborn SansOne";
+    src: url("/fonts/Sunborn-SansOne.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Batangas Bold";
+    src: url("/fonts/BatangasBold700.otf") format("opentype");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+.dashboard-title {
+    font-family: "Sunborn SansOne";
+}
+.details-paslon {
+    font-family: "Batangas Bold";
+}
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
 }
