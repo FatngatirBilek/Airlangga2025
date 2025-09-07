@@ -30,7 +30,10 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <SignedIn>
-            <UserButton />
+            {/* Avatar in top left */}
+            <div className="absolute top-4 left-4 z-20">
+              <UserButton />
+            </div>
           </SignedIn>
           <div>{children}</div>
         </body>
