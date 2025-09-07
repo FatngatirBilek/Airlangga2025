@@ -199,6 +199,7 @@ export default function PaslonWinner() {
                     textAlign: "right",
                     background: "rgba(255,255,255,0.00)",
                     borderRadius: 10,
+                    left: 20,
                     padding: "10px 0px",
                     maxWidth: 450,
                     lineHeight: "1.2",

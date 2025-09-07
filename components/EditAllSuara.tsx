@@ -16,11 +16,16 @@ interface Suara {
 type ChartToggleButtonType =
   | ReactElement<React.ButtonHTMLAttributes<HTMLButtonElement>>
   | ReactElement<ButtonProps>;
+type HasilToggleButtonType =
+  | ReactElement<React.ButtonHTMLAttributes<HTMLButtonElement>>
+  | ReactElement<ButtonProps>;
 
 export default function EditAllSuara({
   chartToggleButton,
+  hasilToggleButton,
 }: {
   chartToggleButton?: ChartToggleButtonType;
+  hasilToggleButton?: HasilToggleButtonType;
 }) {
   const {
     data: suaraList,
@@ -94,7 +99,7 @@ export default function EditAllSuara({
     height: "100%",
   };
 
-  function renderChartButton(btn: ChartToggleButtonType) {
+  function renderButton(btn: ChartToggleButtonType | HasilToggleButtonType) {
     if (!React.isValidElement(btn)) return btn;
     return React.cloneElement(btn, {
       style: {
@@ -273,7 +278,14 @@ export default function EditAllSuara({
           <div
             style={{ display: "flex", alignItems: "center", height: "48px" }}
           >
-            {renderChartButton(chartToggleButton)}
+            {renderButton(chartToggleButton)}
+          </div>
+        )}
+        {hasilToggleButton && (
+          <div
+            style={{ display: "flex", alignItems: "center", height: "48px" }}
+          >
+            {renderButton(hasilToggleButton)}
           </div>
         )}
       </div>

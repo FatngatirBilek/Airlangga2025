@@ -1,11 +1,12 @@
 "use client";
 import Chart from "@/components/Chart";
 import ChartPortal from "@/components/ChartPortal";
+import PaslonWinner from "@/components/PaslonWinner";
 import { useDashboardEnabled } from "@/app/context/useDashboardEnabled";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Home() {
-  const { enabled, loading } = useDashboardEnabled();
+  const { enabled, winnerMode, loading } = useDashboardEnabled();
 
   if (loading) {
     return (
@@ -18,7 +19,16 @@ export default function Home() {
   return (
     <div className="relative min-h-screen">
       <AnimatePresence mode="wait">
-        {enabled ? (
+        {winnerMode ? (
+          <motion.div
+            key="winner"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <PaslonWinner />
+          </motion.div>
+        ) : enabled ? (
           <motion.div
             key="portal"
             initial={{ opacity: 0 }}
