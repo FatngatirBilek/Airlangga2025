@@ -134,7 +134,7 @@ export default function EditAllSuara({
           letterSpacing: "2px",
         }}
       >
-        Edit Semua Suara
+        Dashboard suara Airlangga 2025
       </h2>
       <div className="overflow-x-auto w-full">
         <table className="w-full" style={{ tableLayout: "fixed" }}>
