@@ -44,7 +44,7 @@ const chartBorders = ["#F76102", "#F7A43A", "#FFDC04", "#FFDE94"];
 const suaraTextColors = [
   "text-white",
   "text-white",
-  "text-[#9f6c00]",
+  "text-[#A14F0E]",
   "text-white",
 ];
 const paslonImages = [
@@ -263,7 +263,11 @@ export default function ChartView() {
                       background: chartColors[idx % chartColors.length],
                     }}
                   >
-                    PASLON {c.nomor}
+                    <span
+                      className={`${suaraTextColors[idx % suaraTextColors.length]}`}
+                    >
+                      PASLON {c.nomor}
+                    </span>
                   </div>
                   <div
                     className={`details-paslon w-full text-center font-bold flex flex-col items-center rounded-[9px] py-0.5 shadow text-white text-[0.76rem]`}
@@ -271,7 +275,11 @@ export default function ChartView() {
                       background: chartColors[idx % chartColors.length],
                     }}
                   >
-                    {c.nama}
+                    <span
+                      className={`${suaraTextColors[idx % suaraTextColors.length]}`}
+                    >
+                      {c.nama}
+                    </span>
                     <span
                       className={`details-paslon font-semibold mt-0.5 ${suaraTextColors[idx % suaraTextColors.length]} text-[0.73rem]`}
                     >

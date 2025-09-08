@@ -64,7 +64,7 @@ export default function PaslonWinner() {
       <div
         className="absolute left-0 w-full flex items-center justify-center z-40"
         style={{
-          top: "clamp(4rem, 12vw, 12rem)",
+          top: "clamp(4rem, 12vw, 13rem)",
           height: "auto",
         }}
       >
@@ -73,7 +73,7 @@ export default function PaslonWinner() {
           style={{
             color: TITLE_COLOR,
             fontWeight: 900,
-            fontSize: "clamp(2.5rem, 10vw, 9rem)",
+            fontSize: "clamp(2.5rem, 10vw, 8rem)",
             letterSpacing: "0.08em",
             textShadow: "0 2px 16px rgba(21,68,60,0.08)",
             textAlign: "center",
