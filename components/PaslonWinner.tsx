@@ -39,7 +39,7 @@ export default function PaslonWinner() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
       {/* Background image */}
-      <div className="fixed inset-0 -z-10 w-full h-full">
+      <div className="fixed inset-0 -z-10 w-full h-screen">
         <Image
           src={portalbg}
           alt="background image"
@@ -60,11 +60,12 @@ export default function PaslonWinner() {
         priority
       />
 
-      {/* Title (stretched full width, big, no translucent container) */}
+      {/* Title (responsive, full width, big, no translucent container) */}
       <div
-        className="absolute left-0 top-40 z-40 w-full flex items-center justify-center"
+        className="absolute left-0 w-full flex items-center justify-center z-40"
         style={{
-          height: "170px",
+          top: "clamp(4rem, 12vw, 12rem)",
+          height: "auto",
         }}
       >
         <span
@@ -72,13 +73,14 @@ export default function PaslonWinner() {
           style={{
             color: TITLE_COLOR,
             fontWeight: 900,
-            fontSize: "9rem",
+            fontSize: "clamp(2.5rem, 10vw, 9rem)",
             letterSpacing: "0.08em",
             textShadow: "0 2px 16px rgba(21,68,60,0.08)",
             textAlign: "center",
             lineHeight: 1.1,
             width: "100%",
             display: "block",
+            padding: "0 1rem",
           }}
         >
           SELAMAT &amp; SUKSES
