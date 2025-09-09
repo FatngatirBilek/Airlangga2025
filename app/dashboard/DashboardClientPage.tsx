@@ -47,11 +47,7 @@ export default function DashboardClientPage() {
                       ? "bg-green-500 hover:bg-green-600 focus:ring-green-300"
                       : "bg-gray-600 hover:bg-gray-700 focus:ring-gray-300"
                   }
-                  text-white focus:outline-none focus:ring-2 focus:ring-offset-2`}
-                style={{
-                  minWidth: "180px",
-                  letterSpacing: "1px",
-                }}
+                  text-white focus:outline-none focus:ring-2 focus:ring-offset-2 min-w-[180px] tracking-wide`}
               >
                 {enabled ? "Disable Chart Portal" : "Enable Chart Portal"}
               </motion.button>
@@ -66,11 +62,7 @@ export default function DashboardClientPage() {
                       ? "bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-300"
                       : "bg-gray-600 hover:bg-gray-700 focus:ring-gray-300"
                   }
-                  text-white focus:outline-none focus:ring-2 focus:ring-offset-2`}
-                style={{
-                  minWidth: "180px",
-                  letterSpacing: "1px",
-                }}
+                  text-white focus:outline-none focus:ring-2 focus:ring-offset-2 min-w-[180px] tracking-wide`}
               >
                 {winnerMode ? "Hide Hasil" : "Show Hasil"}
               </motion.button>
