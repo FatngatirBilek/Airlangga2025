@@ -29,9 +29,9 @@ const suaraTextColors = [
 ];
 
 const paslonImages = [
-  "/images/paslon1.jpeg",
-  "/images/paslon2.jpeg",
-  "/images/paslon3.jpeg",
+  "/images/paslon1.jpg",
+  "/images/paslon2.jpg",
+  "/images/paslon3.jpg",
 ];
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
