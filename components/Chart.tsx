@@ -243,8 +243,9 @@ export default function ChartView() {
                   alt={`Paslon ${c.nomor}`}
                   width={cardWidth}
                   height={cardImageHeight}
-                  className="object-cover"
+                  className="object-cover "
                   priority
+                  quality={100}
                   style={{
                     borderRadius: `${cardRadius}px`,
                     objectFit: "cover",
