@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider, SignedIn, UserButton } from "@clerk/nextjs";
 import "./globals.css";
+import FloatingAuthWidget from "@/components/FloatingAuthWidget";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,20 +25,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <SignedIn>
-            {/* Avatar in top left */}
-            <div className="absolute top-4 left-4 z-20">
-              <UserButton />
-            </div>
-          </SignedIn>
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <SessionProvider>
+          <div className="absolute top-4 left-4 z-20"></div>
           <div>{children}</div>
-        </body>
-      </html>
-    </ClerkProvider>
+          <FloatingAuthWidget />
+        </SessionProvider>
+      </body>
+    </html>
   );
 }
