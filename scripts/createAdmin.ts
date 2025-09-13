@@ -23,7 +23,12 @@ async function createAdmin() {
   // Check if admin user already exists
   const existing = await User.findOne({ username });
   if (existing) {
-    console.log("Admin user already exists.");
+    // Update password and other details
+    existing.password = await bcrypt.hash(plainPassword, 10);
+    existing.name = name;
+    existing.role = role;
+    await existing.save();
+    console.log("Admin user updated!");
     mongoose.disconnect();
     return;
   }
