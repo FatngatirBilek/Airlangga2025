@@ -26,7 +26,7 @@ export default function FloatingAuthWidget() {
     if (hideTimer.current) clearTimeout(hideTimer.current);
     hideTimer.current = setTimeout(() => {
       setVisible(false);
-    }, 2000);
+    }, 100);
   };
 
   // Clean up timer on unmount
