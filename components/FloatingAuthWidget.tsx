@@ -9,7 +9,7 @@ export default function FloatingAuthWidget() {
   const user = session?.user as { name?: string; username?: string };
   const router = useRouter();
 
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const hideTimer = useRef<NodeJS.Timeout | null>(null);
 
   // Show widget and clear hide timer when mouse enters
