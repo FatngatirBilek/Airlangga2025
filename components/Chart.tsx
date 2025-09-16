@@ -308,7 +308,7 @@ export default function ChartView() {
               }}
             >
               <span className="details-paslon text-center font-extrabold tracking-wide text-[#594013] text-[1.4rem] mb-1">
-                Golput
+                TIDAK SAH
               </span>
               <span className="details-paslon text-center font-semibold text-[#594013] text-[0.74rem] mt-1">
                 {golputData.count} suara
