@@ -71,26 +71,26 @@ export default function ChartPortal() {
   const paslonData = useMemo(
     () =>
       apiData?.filter(
-        (d) => d.nomor !== "" && d.nama.toLowerCase() !== "golput",
+        (d) => d.nomor !== "" && d.nama.toLowerCase() !== "tidaksah",
       ) ?? [],
     [apiData],
   );
 
-  const golputData = useMemo(
-    () => apiData?.find((d) => d.nama.toLowerCase() === "golput"),
+  const tidaksahData = useMemo(
+    () => apiData?.find((d) => d.nama.toLowerCase() === "tidaksah"),
     [apiData],
   );
 
   // Chart data includes golput
   const chartData = useMemo(
     () => ({
-      labels: [...paslonData.map((item) => item.nama), "Golput"],
+      labels: [...paslonData.map((item) => item.nama), "tidaksah"],
       datasets: [
         {
           label: "Jumlah Suara",
           data: [
             ...paslonData.map((item) => parseInt(item.count, 10)),
-            golputData ? parseInt(golputData.count, 10) : 0,
+            tidaksahData ? parseInt(tidaksahData.count, 10) : 0,
           ],
           backgroundColor: [
             ...paslonData.map(
@@ -108,7 +108,7 @@ export default function ChartPortal() {
         },
       ],
     }),
-    [paslonData, golputData],
+    [paslonData, tidaksahData],
   );
 
   useEffect(() => {
@@ -131,7 +131,7 @@ export default function ChartPortal() {
         chartInstanceRef.current = null;
       }
     };
-  }, [paslonData, golputData, isLoading, error, chartData]);
+  }, [paslonData, tidaksahData, isLoading, error, chartData]);
 
   // Card and pill sizing (keep consistent with Chart.tsx)
   const cardWidth = 250;
@@ -274,9 +274,9 @@ export default function ChartPortal() {
             </div>
           ))}
           {/* Golput card WITHOUT image, chart yellow, compact */}
-          {golputData && (
+          {tidaksahData && (
             <div
-              key={golputData._id}
+              key={tidaksahData._id}
               className="flex flex-col items-center"
               style={{
                 borderRadius: `${pillRadius}px`,
@@ -292,7 +292,7 @@ export default function ChartPortal() {
                 TIDAK SAH
               </span>
               <span className="details-paslon text-center font-semibold text-[#594013] text-[15px] ">
-                {golputData.count} suara
+                {tidaksahData.count} suara
               </span>
             </div>
           )}

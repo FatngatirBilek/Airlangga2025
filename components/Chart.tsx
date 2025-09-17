@@ -124,9 +124,11 @@ export default function ChartView() {
   // Candidate and golput separation (corrected: never compare number to string)
   const paslonData =
     apiData?.filter(
-      (c) => c.nomor !== null && c.nama.toLowerCase() !== "golput",
+      (c) => c.nomor !== null && c.nama.toLowerCase() !== "tidaksah",
     ) || [];
-  const golputData = apiData?.find((c) => c.nama.toLowerCase() === "golput");
+  const tidaksahData = apiData?.find(
+    (c) => c.nama.toLowerCase() === "tidaksah",
+  );
 
   const chartData: ChartData<"bar"> = {
     labels: apiData ? apiData.map((item) => item.nama) : [],
@@ -293,9 +295,9 @@ export default function ChartView() {
           ))}
 
           {/* Golput card WITHOUT image, chart yellow, compact */}
-          {golputData && (
+          {tidaksahData && (
             <div
-              key={golputData._id}
+              key={tidaksahData._id}
               className="flex flex-col items-center"
               style={{
                 borderRadius: `${pillRadius}px`,
@@ -311,7 +313,7 @@ export default function ChartView() {
                 TIDAK SAH
               </span>
               <span className="details-paslon text-center font-semibold text-[#594013] text-[20px] mt-1">
-                {golputData.count} suara
+                {tidaksahData.count} suara
               </span>
             </div>
           )}
