@@ -137,7 +137,7 @@ export default function ChartPortal() {
   const cardWidth = 250;
   const cardImageHeight = 180;
   const cardRadius = 18;
-  const pillWidth = "58%";
+  const pillWidth = "65%";
   const pillRadius = 9;
 
   return (
@@ -167,9 +167,10 @@ export default function ChartPortal() {
       {/* Title */}
       <div className="absolute top-20 right-10 w-full text-5xl flex justify-center z-10">
         <h1 className="dashboard-title text-white text-center">
-          DASHBOARD PERHITUNGAN SUARA
-          <br />
+          DASHBOARD PERHITUNGAN SUARA <br />
           AIRLANGGA 2025
+          <br />
+          <span className="text-red-700">INI SAMPLEEEEE !!!</span>
         </h1>
       </div>
 
@@ -239,7 +240,7 @@ export default function ChartPortal() {
                   style={{ width: pillWidth, zIndex: 3 }}
                 >
                   <div
-                    className={`details-paslon w-full text-center font-bold rounded-[9px] py-0.5 shadow text-white text-[0.78rem]`}
+                    className={`details-paslon w-full text-center font-bold rounded-[9px] py-0.5 shadow text-white text-[18px]`}
                     style={{
                       background: chartColors[idx % chartColors.length],
                     }}
@@ -252,7 +253,7 @@ export default function ChartPortal() {
                     </span>
                   </div>
                   <div
-                    className={`details-paslon w-full text-center font-bold flex flex-col items-center rounded-[9px] py-0.5 shadow text-white text-[0.76rem]`}
+                    className={`details-paslon w-full text-center font-bold flex flex-col items-center rounded-[9px] py-0.5 shadow text-white text-[20px]`}
                     style={{
                       background: chartColors[idx % chartColors.length],
                     }}
@@ -263,7 +264,7 @@ export default function ChartPortal() {
                       {c.nama}
                     </span>
                     <span
-                      className={`details-paslon font-semibold mt-0.5 ${suaraTextColors[idx % suaraTextColors.length]} text-[0.73rem]`}
+                      className={`details-paslon font-semibold mt-0.5 ${suaraTextColors[idx % suaraTextColors.length]} text-[20px]`}
                     >
                       {c.count} suara
                     </span>
@@ -287,10 +288,10 @@ export default function ChartPortal() {
                 padding: "10px 0 5px 0",
               }}
             >
-              <span className="details-paslon text-center font-extrabold tracking-wide text-[#594013] text-[1.4rem] mb-1">
+              <span className="details-paslon text-center font-extrabold tracking-wide text-[#594013] text-[18px] mb-1">
                 TIDAK SAH
               </span>
-              <span className="details-paslon text-center font-semibold text-[#594013] text-[0.74rem] mt-1">
+              <span className="details-paslon text-center font-semibold text-[#594013] text-[15px] ">
                 {golputData.count} suara
               </span>
             </div>

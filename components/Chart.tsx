@@ -76,15 +76,15 @@ const options: ChartOptions<"bar"> = {
         display: true,
         text: "Jumlah Suara",
         color: "#fff",
-        font: { weight: "bold", size: 17 },
+        font: { weight: "bold", size: 25 },
       },
       ticks: {
         color: "#fff",
-        font: { weight: "bold", size: 13 },
+        font: { weight: "bold", size: 20 },
       },
       grid: {
         color: "rgba(255,255,255,0.16)",
-        lineWidth: 1.1,
+        lineWidth: 2,
       },
     },
     x: {
@@ -92,16 +92,16 @@ const options: ChartOptions<"bar"> = {
         display: true,
         text: "Kandidat",
         color: "#fff",
-        font: { weight: "bold", size: 17 },
+        font: { weight: "bold", size: 25 },
       },
       ticks: {
         color: "#fff",
-        font: { weight: "bold", size: 13 },
+        font: { weight: "bold", size: 20 },
       },
       grid: {
         display: false,
         color: "rgba(255,255,255,0.16)",
-        lineWidth: 1.1,
+        lineWidth: 2,
         drawTicks: false,
       },
     },
@@ -175,7 +175,7 @@ export default function ChartView() {
   const cardWidth = 250;
   const cardImageHeight = 180;
   const cardRadius = 18;
-  const pillWidth = "58%";
+  const pillWidth = "65%";
   const pillRadius = 9;
 
   return (
@@ -259,7 +259,7 @@ export default function ChartView() {
                   style={{ width: pillWidth, zIndex: 3 }}
                 >
                   <div
-                    className={`details-paslon w-full text-center font-bold rounded-[9px] py-0.5 shadow text-white text-[0.78rem]`}
+                    className={`details-paslon w-full text-center font-bold rounded-[9px] py-0.5 shadow text-white text-[15px]`}
                     style={{
                       background: chartColors[idx % chartColors.length],
                     }}
@@ -271,7 +271,7 @@ export default function ChartView() {
                     </span>
                   </div>
                   <div
-                    className={`details-paslon w-full text-center font-bold flex flex-col items-center rounded-[9px] py-0.5 shadow text-white text-[0.76rem]`}
+                    className={`details-paslon w-full text-center font-bold flex flex-col items-center rounded-[9px] py-0.5 shadow text-white text-[20px]`}
                     style={{
                       background: chartColors[idx % chartColors.length],
                     }}
@@ -282,7 +282,7 @@ export default function ChartView() {
                       {c.nama}
                     </span>
                     <span
-                      className={`details-paslon font-semibold mt-0.5 ${suaraTextColors[idx % suaraTextColors.length]} text-[0.73rem]`}
+                      className={`details-paslon font-semibold mt-0.5 ${suaraTextColors[idx % suaraTextColors.length]} text-[19px]`}
                     >
                       {c.count} suara
                     </span>
@@ -310,7 +310,7 @@ export default function ChartView() {
               <span className="details-paslon text-center font-extrabold tracking-wide text-[#594013] text-[1.4rem] mb-1">
                 TIDAK SAH
               </span>
-              <span className="details-paslon text-center font-semibold text-[#594013] text-[0.74rem] mt-1">
+              <span className="details-paslon text-center font-semibold text-[#594013] text-[20px] mt-1">
                 {golputData.count} suara
               </span>
             </div>
@@ -322,7 +322,8 @@ export default function ChartView() {
           <h1 className="dashboard-title text-3xl font-bold uppercase tracking-[0.13em] text-white drop-shadow mb-10 text-center">
             DASHBOARD PERHITUNGAN SUARA
             <br />
-            AIRLANGGA 2025
+            AIRLANGGA 2025 <br></br>
+            <span className="text-red-700">INI SAMPLEEEEE !!!</span>
           </h1>
           <div style={{ position: "relative", height: "500px", width: "100%" }}>
             {isLoading && <div>Loading Chart Data...</div>}
