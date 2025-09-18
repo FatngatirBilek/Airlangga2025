@@ -223,20 +223,20 @@ export default function ChartHpPortal() {
               />
               <div className="flex flex-col flex-1 py-2 px-2">
                 <div
-                  className={`text-left font-bold rounded-[9px] py-0.5 shadow text-white text-[15px] mb-1`}
+                  className={`text-center font-bold rounded-[9px] py-0.5 shadow text-white text-[15px] mb-1`}
                   style={{
                     background: chartColors[idx % chartColors.length],
                     width: pillWidth,
                   }}
                 >
                   <span
-                    className={`${suaraTextColors[idx % suaraTextColors.length]}`}
+                    className={`text-center details-paslon ${suaraTextColors[idx % suaraTextColors.length]} `}
                   >
                     Paslon {c.nomor}
                   </span>
                 </div>
                 <div
-                  className={`text-left font-bold flex flex-col items-start rounded-[9px] py-0.5 shadow text-white text-[16px]`}
+                  className={` font-bold flex flex-col text-center rounded-[9px] py-0.5 shadow text-white text-[16px]`}
                   style={{
                     background: chartColors[idx % chartColors.length],
                     width: pillWidth,
