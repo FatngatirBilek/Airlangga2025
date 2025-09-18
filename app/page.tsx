@@ -1,6 +1,7 @@
 "use client";
 import Chart from "@/components/Chart";
 import ChartPortal from "@/components/ChartPortal";
+import ChartHpPortal from "@/components/ChartHpPortal";
 import PaslonWinner from "@/components/PaslonWinner";
 import { useDashboardEnabled } from "@/app/context/useDashboardEnabled";
 import { AnimatePresence, motion } from "framer-motion";
@@ -29,14 +30,27 @@ export default function Home() {
             <PaslonWinner />
           </motion.div>
         ) : enabled ? (
-          <motion.div
-            key="portal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ChartPortal />
-          </motion.div>
+          <>
+            {/* Show ChartHpPortal on mobile, ChartPortal on desktop/tablet */}
+            <motion.div
+              key="portal-desktop"
+              className="hidden sm:block"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ChartPortal />
+            </motion.div>
+            <motion.div
+              key="portal-mobile"
+              className="block sm:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ChartHpPortal />
+            </motion.div>
+          </>
         ) : (
           <motion.div
             key="chart"

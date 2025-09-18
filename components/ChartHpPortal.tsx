@@ -243,12 +243,12 @@ export default function ChartHpPortal() {
                   }}
                 >
                   <span
-                    className={`${suaraTextColors[idx % suaraTextColors.length]}`}
+                    className={`details-paslon ${suaraTextColors[idx % suaraTextColors.length]}`}
                   >
                     {c.nama}
                   </span>
                   <span
-                    className={`font-semibold mt-0.5 ${suaraTextColors[idx % suaraTextColors.length]} text-[15px]`}
+                    className={`details-paslon font-semibold mt-0.5 ${suaraTextColors[idx % suaraTextColors.length]} text-[15px]`}
                   >
                     {c.count} suara
                   </span>
