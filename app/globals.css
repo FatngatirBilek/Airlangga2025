@@ -44,3 +44,12 @@ body {
 .details-paslon {
     font-family: "Batangas Bold";
 }
+.text-stroke-6 {
+    -webkit-text-stroke: 6px #fff;
+}
+.text-stroke-2 {
+    -webkit-text-stroke: 2px #fff;
+}
+.text-stroke-1_5 {
+    -webkit-text-stroke: 1.5px #fff;
+}
