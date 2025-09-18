@@ -270,10 +270,10 @@ export default function ChartHpPortal() {
                 padding: "14px 0 8px 0",
               }}
             >
-              <span className="text-center font-extrabold tracking-wide text-[#594013] text-[18px] mb-1">
+              <span className="text-center details-paslon font-extrabold tracking-wide text-[#594013] text-[18px] mb-1">
                 Tidak Sah
               </span>
-              <span className="text-center font-semibold text-[#594013] text-[15px] ">
+              <span className="text-center details-paslon font-semibold text-[#594013] text-[15px] ">
                 {tidaksahData.count} suara
               </span>
             </div>
