@@ -170,7 +170,6 @@ export default function ChartPortal() {
           DASHBOARD PERHITUNGAN SUARA <br />
           AIRLANGGA 2025
           <br />
-          <span className="text-red-700">INI SAMPLEEEEE !!!</span>
         </h1>
       </div>
 

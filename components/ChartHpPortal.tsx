@@ -164,7 +164,7 @@ export default function ChartHpPortal() {
 
       {/* Title */}
       <div className="w-full flex justify-center mt-20 mb-2 z-10 relative">
-        <h1 className="text-white text-center text-2xl font-bold drop-shadow-lg leading-tight dashboard-title">
+        <h1 className="text-white text-center text-2xl drop-shadow-lg leading-tight dashboard-title">
           DASHBOARD PERHITUNGAN SUARA <br />
           AIRLANGGA 2025
         </h1>

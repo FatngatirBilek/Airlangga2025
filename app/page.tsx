@@ -43,18 +43,9 @@ export default function Home() {
               <PaslonWinnerMobile />
             </motion.div>
           </>
-        ) : enabled ? (
+        ) : (
           <>
-            {/* Show ChartHpPortal on mobile, ChartPortal on desktop/tablet */}
-            <motion.div
-              key="portal-desktop"
-              className="hidden sm:block"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <ChartPortal />
-            </motion.div>
+            {/* Always show ChartHpPortal on mobile */}
             <motion.div
               key="portal-mobile"
               className="block sm:hidden"
@@ -64,16 +55,29 @@ export default function Home() {
             >
               <ChartHpPortal />
             </motion.div>
+            {/* Desktop/tablet logic remains conditional */}
+            {enabled ? (
+              <motion.div
+                key="portal-desktop"
+                className="hidden sm:block"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <ChartPortal />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="chart"
+                className="hidden sm:block"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <Chart />
+              </motion.div>
+            )}
           </>
-        ) : (
-          <motion.div
-            key="chart"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <Chart />
-          </motion.div>
         )}
       </AnimatePresence>
     </div>

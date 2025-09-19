@@ -325,7 +325,6 @@ export default function ChartView() {
             DASHBOARD PERHITUNGAN SUARA
             <br />
             AIRLANGGA 2025 <br></br>
-            <span className="text-red-700">INI SAMPLEEEEE !!!</span>
           </h1>
           <div style={{ position: "relative", height: "500px", width: "100%" }}>
             {isLoading && <div>Loading Chart Data...</div>}
