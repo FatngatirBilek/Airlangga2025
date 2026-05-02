@@ -11,6 +11,9 @@ const paslonImageMap: Record<string, string> = {
   "1": paslon1menang.src,
   "2": paslon2menang.src,
   "3": paslon3menang.src,
+  "01": paslon1menang.src,
+  "02": paslon2menang.src,
+  "03": paslon3menang.src,
 };
 
 const TITLE_COLOR = "#15443C";
@@ -110,7 +113,7 @@ export default function PaslonWinner() {
           >
             {/* PASLON Image */}
             <Image
-              src={paslonImageMap[winner.nomor]}
+              src={paslonImageMap[winner.nomor] || paslonImageMap["1"]}
               alt="Paslon Winner"
               width={1920}
               height={1080}
