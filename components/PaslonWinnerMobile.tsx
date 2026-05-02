@@ -11,6 +11,9 @@ const paslonImageMap: Record<string, string> = {
   "1": paslon1menanghp.src,
   "2": paslon2menanghp.src,
   "3": paslon3menanghp.src,
+  "01": paslon1menanghp.src,
+  "02": paslon2menanghp.src,
+  "03": paslon3menanghp.src,
 };
 
 interface Suara {
@@ -118,7 +121,7 @@ export default function PaslonWinnerMobile() {
             }}
           >
             <Image
-              src={paslonImageMap[winner.nomor]}
+              src={paslonImageMap[winner.nomor] || paslonImageMap["1"]}
               alt="Paslon Winner"
               fill
               style={{
