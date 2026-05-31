@@ -21,6 +21,11 @@ const mockData = [
     nomor: "03",
     count: "0",
   },
+  {
+    nama: "tidaksah",
+    nomor: "null",
+    count: "0",
+  },
 ];
 
 async function generateSuara() {

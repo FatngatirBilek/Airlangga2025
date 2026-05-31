@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "create-admin": "bun scripts/createAdmin.ts"
+    "create-admin": "bun scripts/createAdmin.ts",
+    "sample-suara": "bun scripts/generateSuara.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
