@@ -20,7 +20,7 @@
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.542.0",
     "mongoose": "^8.13.2",
-    "next": "15.3.1",
+    "next": "15.3.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "2.15.4",
